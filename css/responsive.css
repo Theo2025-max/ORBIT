@@ -1,0 +1,24 @@
+/* --------------------------------------------------
+   ORBIT responsive adjustments
+-------------------------------------------------- */
+
+/* Very small mobile / reflow safeguard */
+
+@media (max-width: 22.5rem) {
+  .site-nav {
+    gap: var(--space-3);
+  }
+
+  .site-nav__list {
+    gap: var(--space-1);
+  }
+
+  .site-brand {
+    font-size: 1rem;
+  }
+
+  .site-nav__link {
+    padding-inline: var(--space-3);
+    font-size: 0.875rem;
+  }
+}

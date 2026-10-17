@@ -20,21 +20,39 @@
   </head>
 
   <body>
-    <header>
-      <nav aria-label="Primary navigation">
-        <a href="index.html">ORBIT</a>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
-        <ul>
-          <li><a href="index.html">Discover</a></li>
-          <li><a href="explore.html" aria-current="page">Explore</a></li>
-          <li><a href="saved.html">Saved</a></li>
-        </ul>
-      </nav>
+    <header class="site-header">
+      <div class="container">
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a class="site-brand" href="index.html" aria-label="ORBIT home">
+            ORBIT
+          </a>
+
+          <ul class="site-nav__list" role="list">
+            <li>
+              <a class="site-nav__link" href="index.html"> Discover </a>
+            </li>
+
+            <li>
+              <a class="site-nav__link" href="explore.html" aria-current="page">
+                Explore
+              </a>
+            </li>
+
+            <li>
+              <a class="site-nav__link" href="saved.html"> Saved </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
-    <main>
-      <h1>Explore</h1>
-      <p>Search NASA imagery by keyword.</p>
+    <main id="main-content" class="page-main" tabindex="-1">
+      <div class="container">
+        <h1>Explore</h1>
+        <p>Search NASA imagery by keyword.</p>
+      </div>
     </main>
 
     <script type="module" src="js/main.js"></script>
