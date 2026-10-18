@@ -2,6 +2,10 @@
    ORBIT page-specific layouts
 -------------------------------------------------- */
 
+/* ==================================================
+   DISCOVER
+================================================== */
+
 /* --------------------------------------------------
    Discover hero
 -------------------------------------------------- */
@@ -99,11 +103,321 @@
   gap: var(--space-6);
 }
 
+/* ==================================================
+   EXPLORE
+================================================== */
+
 /* --------------------------------------------------
-   Tablet
+   Explore introduction
 -------------------------------------------------- */
 
+.explore-hero {
+  padding-block: var(--space-8) var(--space-10, 2.5rem);
+}
+
+.explore-hero__content {
+  max-width: 48rem;
+}
+
+.explore-hero__title {
+  max-width: 13ch;
+
+  font-size: clamp(2.75rem, 7vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.explore-hero__description {
+  max-width: 42rem;
+
+  margin-top: var(--space-5);
+
+  color: var(--color-text-secondary);
+
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* --------------------------------------------------
+   Explore search
+-------------------------------------------------- */
+
+.explore-search {
+  width: min(100%, 48rem);
+
+  margin-top: var(--space-8);
+}
+
+.explore-search__label {
+  display: inline-block;
+
+  margin-bottom: var(--space-2);
+
+  color: var(--color-text-primary);
+
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.explore-search__control {
+  display: flex;
+  align-items: stretch;
+
+  overflow: hidden;
+
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.explore-search__control:focus-within {
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 0.125rem rgba(247, 209, 84, 0.18);
+}
+
+.explore-search__input {
+  flex: 1;
+
+  min-width: 0;
+  min-height: 3.25rem;
+
+  padding-inline: var(--space-4);
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+  color: var(--color-text-primary);
+}
+
+.explore-search__input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.explore-search__button {
+  min-width: 5.75rem;
+
+  padding-inline: var(--space-4);
+
+  border: 0;
+
+  background: var(--color-aqua);
+  color: var(--color-text-inverse);
+
+  font-weight: var(--font-weight-semibold);
+
+  cursor: pointer;
+
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.explore-search__button:hover {
+  background: var(--color-aqua-hover);
+}
+
+.explore-search__button:active {
+  background: var(--color-aqua-pressed);
+}
+
+.explore-search__guidance {
+  margin-top: var(--space-2);
+
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+}
+
+/* --------------------------------------------------
+   Topic suggestions
+-------------------------------------------------- */
+
+.topic-section {
+  margin-top: var(--space-6);
+}
+
+.topic-section__label {
+  margin-bottom: var(--space-3);
+
+  color: var(--color-text-primary);
+
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.topic-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.topic-chip {
+  min-height: var(--control-min-height);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding-inline: var(--space-4);
+
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-pill);
+
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+
+  cursor: pointer;
+
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.topic-chip:hover {
+  border-color: var(--color-aqua);
+
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
+
+  transform: translateY(-0.0625rem);
+}
+
+.topic-chip:active {
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------
+   Explore results area
+-------------------------------------------------- */
+
+.explore-results-section {
+  padding-block: var(--space-8) var(--space-24);
+}
+
+/* --------------------------------------------------
+   Search states
+-------------------------------------------------- */
+
+.search-status {
+  margin-bottom: var(--space-8);
+}
+
+.search-state {
+  max-width: 48rem;
+
+  padding: var(--space-6);
+
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background:
+    linear-gradient(135deg, rgba(46, 230, 214, 0.035), transparent 50%),
+    var(--color-surface);
+}
+
+.search-state__eyebrow {
+  margin-bottom: var(--space-2);
+
+  color: var(--color-aqua);
+
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.search-state__title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  line-height: 1.2;
+}
+
+.search-state__message {
+  max-width: 40rem;
+
+  margin-top: var(--space-3);
+
+  line-height: 1.7;
+}
+
+.search-state--loading {
+  border-color: rgba(46, 230, 214, 0.45);
+}
+
+.search-state--empty {
+  border-color: rgba(154, 167, 184, 0.45);
+}
+
+.search-state--error {
+  border-color: rgba(255, 107, 107, 0.55);
+}
+
+.search-state--error .search-state__eyebrow {
+  color: var(--color-error);
+}
+
+.search-state--error .button {
+  margin-top: var(--space-5);
+}
+
+/* --------------------------------------------------
+   Results heading
+-------------------------------------------------- */
+
+.results-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-4);
+
+  margin-bottom: var(--space-6);
+}
+
+.results-header__eyebrow {
+  margin-bottom: var(--space-1);
+
+  color: var(--color-aqua);
+
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.results-header__title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  line-height: 1.2;
+}
+
+.results-header__count {
+  flex-shrink: 0;
+
+  font-size: 0.875rem;
+}
+
+/* --------------------------------------------------
+   Dynamic NASA results grid
+-------------------------------------------------- */
+
+.results-grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+/* ==================================================
+   TABLET
+================================================== */
+
 @media (min-width: 48rem) {
+  /* Discover */
+
   .discover-hero {
     padding-block: var(--space-16) var(--space-24);
   }
@@ -124,13 +438,25 @@
   .featured-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* Explore */
+
+  .explore-hero {
+    padding-block: var(--space-12) var(--space-10, 2.5rem);
+  }
+
+  .results-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-/* --------------------------------------------------
-   Desktop
--------------------------------------------------- */
+/* ==================================================
+   DESKTOP
+================================================== */
 
 @media (min-width: 75rem) {
+  /* Discover */
+
   .discover-hero__layout {
     grid-template-columns: minmax(0, 1.2fr) minmax(22rem, 0.8fr);
     gap: var(--space-16);
@@ -141,6 +467,16 @@
   }
 
   .featured-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Explore */
+
+  .explore-hero {
+    padding-block: var(--space-16) var(--space-12);
+  }
+
+  .results-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

@@ -49,10 +49,177 @@
     </header>
 
     <main id="main-content" class="page-main" tabindex="-1">
-      <div class="container">
-        <h1>Explore</h1>
-        <p>Search NASA imagery by keyword.</p>
-      </div>
+      <section class="explore-hero">
+        <div class="container">
+          <div class="explore-hero__content">
+            <p class="eyebrow">Explore the universe</p>
+
+            <h1 class="explore-hero__title">Search NASA space images.</h1>
+
+            <p class="explore-hero__description">
+              Search NASA's image library using keywords, or choose a popular
+              topic to discover imagery from across the universe.
+            </p>
+          </div>
+
+          <form
+            id="explore-search-form"
+            class="explore-search"
+            role="search"
+            novalidate
+          >
+            <label class="explore-search__label" for="explore-search">
+              Search NASA images
+            </label>
+
+            <div class="explore-search__control">
+              <input
+                id="explore-search"
+                class="explore-search__input"
+                name="q"
+                type="search"
+                placeholder="Search NASA images..."
+                autocomplete="off"
+                spellcheck="false"
+              />
+
+              <button class="explore-search__button" type="submit">
+                Search
+              </button>
+            </div>
+
+            <p id="search-guidance" class="explore-search__guidance">
+              Enter a keyword such as Mars, Nebula or Earth.
+            </p>
+          </form>
+
+          <div class="topic-section">
+            <p class="topic-section__label">Popular topics</p>
+
+            <div class="topic-list" aria-label="Popular NASA image topics">
+              <button class="topic-chip" type="button" data-topic="Nebula">
+                Nebula
+              </button>
+
+              <button class="topic-chip" type="button" data-topic="Mars">
+                Mars
+              </button>
+
+              <button class="topic-chip" type="button" data-topic="Earth">
+                Earth
+              </button>
+
+              <button class="topic-chip" type="button" data-topic="Galaxy">
+                Galaxy
+              </button>
+
+              <button class="topic-chip" type="button" data-topic="Moon">
+                Moon
+              </button>
+
+              <button class="topic-chip" type="button" data-topic="Jupiter">
+                Jupiter
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="explore-results-section">
+        <div class="container">
+          <div
+            id="search-status"
+            class="search-status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <div id="state-initial" class="search-state search-state--initial">
+              <p class="search-state__eyebrow">Ready to explore</p>
+
+              <h2 class="search-state__title">
+                Start with a keyword or topic.
+              </h2>
+
+              <p class="search-state__message">
+                ORBIT will search the NASA Image and Video Library for image
+                results only.
+              </p>
+            </div>
+
+            <div
+              id="state-loading"
+              class="search-state search-state--loading"
+              hidden
+            >
+              <p class="search-state__eyebrow">Searching NASA</p>
+
+              <h2 class="search-state__title">Searching NASA images…</h2>
+
+              <p class="search-state__message">
+                Your search term will remain visible while results load.
+              </p>
+            </div>
+
+            <div
+              id="state-empty"
+              class="search-state search-state--empty"
+              hidden
+            >
+              <p class="search-state__eyebrow">No results</p>
+
+              <h2 class="search-state__title">No images found.</h2>
+
+              <p class="search-state__message">
+                Try a broader keyword or choose one of the popular topics above.
+              </p>
+            </div>
+
+            <div
+              id="state-error"
+              class="search-state search-state--error"
+              role="alert"
+              hidden
+            >
+              <p class="search-state__eyebrow">Search unavailable</p>
+
+              <h2 class="search-state__title">NASA could not be reached.</h2>
+
+              <p class="search-state__message">
+                Your search has been kept. You can retry or edit the query.
+              </p>
+
+              <button
+                id="retry-search"
+                class="button button--secondary"
+                type="button"
+              >
+                Retry search
+              </button>
+            </div>
+          </div>
+
+          <div id="results-header" class="results-header" hidden>
+            <div>
+              <p class="results-header__eyebrow">NASA Image Library</p>
+
+              <h2 class="results-header__title">Search results</h2>
+            </div>
+
+            <p
+              id="results-count"
+              class="results-header__count"
+              aria-live="polite"
+            ></p>
+          </div>
+
+          <div
+            id="search-results"
+            class="results-grid"
+            aria-label="NASA image search results"
+          ></div>
+        </div>
+      </section>
     </main>
 
     <script type="module" src="js/main.js"></script>
