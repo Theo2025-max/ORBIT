@@ -25,6 +25,33 @@ const resultsCount = document.querySelector("#results-count");
 const resultsContainer = document.querySelector("#search-results");
 
 /* --------------------------------------------------
+   Details DOM
+-------------------------------------------------- */
+
+const exploreHero = document.querySelector(".explore-hero");
+
+const exploreResultsSection = document.querySelector(
+  "#explore-results-section",
+);
+
+const detailsPanel = document.querySelector("#details-panel");
+
+const detailsBackButton = document.querySelector("#details-back-button");
+
+const detailsImage = document.querySelector("#details-image");
+
+const detailsImageFallback = document.querySelector("#details-image-fallback");
+
+const detailsTitle = document.querySelector("#details-title");
+const detailsSource = document.querySelector("#details-source");
+const detailsDate = document.querySelector("#details-date");
+const detailsNasaId = document.querySelector("#details-nasa-id");
+
+const detailsDescription = document.querySelector("#details-description");
+
+const detailsSourceLink = document.querySelector("#details-source-link");
+
+/* --------------------------------------------------
    Search states
 -------------------------------------------------- */
 
@@ -51,14 +78,6 @@ const IMAGE_PREFLIGHT_BATCH_SIZE = 8;
 
 const MIN_PREVIEW_WIDTH = 320;
 const MIN_PREVIEW_HEIGHT = 180;
-
-/*
-  Mars gets a slightly stronger image-size gate.
-
-  We are not reading pixels with Canvas because
-  NASA's image host does not reliably provide the
-  CORS headers required for that.
-*/
 
 const MARS_MIN_PREVIEW_WIDTH = 420;
 const MARS_MIN_PREVIEW_HEIGHT = 220;
@@ -163,7 +182,6 @@ const EARTH_REJECT_TERMS = [
   "temperature from space",
   "temperature data",
   "temperature analysis",
-
   "temperature visualization",
   "temperature visualisation",
 
@@ -261,13 +279,6 @@ const KNOWN_BAD_MOON_TITLES = new Set(["guardians of traffic supermoon"]);
 
 /* --------------------------------------------------
    Mars — verified visual failures
-
-   This remains deliberately small.
-
-   General categories are handled by the Mars rules
-   below. These entries are only used where NASA
-   metadata cannot communicate that the actual
-   preview itself is visually unsuitable.
 -------------------------------------------------- */
 
 const KNOWN_BAD_MARS_NASA_IDS = new Set([
@@ -354,14 +365,6 @@ const KNOWN_BAD_MARS_TITLE_FRAGMENTS = [
 
   "spreading the delta of mars' jezero crater",
 
-  /*
-    Final Mars cleanup.
-
-    These are the remaining weak cards we identified
-    after the wider filtering system was already
-    working.
-  */
-
   "curiosity rover on mount sharp, seen from mars orbit",
 
   "curiosity rover on mount sharp seen from mars orbit",
@@ -375,6 +378,118 @@ const KNOWN_BAD_MARS_TITLE_FRAGMENTS = [
   "curiosity's view of sand ridges and bolivar",
 
   "view of sand ridges and bolivar",
+
+  /* Step 5A.2 */
+
+  "crater rim and plain at head of 'perseverance valley'",
+
+  "crater rim and plain at head of perseverance valley",
+
+  "rock stripes pattern in mars' 'perseverance valley'",
+
+  "rock stripes pattern in mars' perseverance valley",
+
+  "rock stripes pattern",
+
+  "rendering of mars hill in death valley national park",
+
+  "murray ridge on rim of endeavour crater",
+
+  "shadows draw attention to features of mars landscape sand ripples",
+
+  "high-resolution mosaic",
+
+  "high resolution mosaic",
+
+  "micro-imager view",
+
+  "micro imager view",
+
+  "researchers test mars drone software",
+
+  /* Step 5A.3 */
+
+  "oblique view of gale crater",
+
+  "with vertical exaggeration",
+
+  "simulated view of gale crater lake",
+
+  "simulated view of gale crater",
+
+  "jezero crater as seen by esa's mars express orbiter",
+
+  "jezero crater as seen by esas mars express orbiter",
+
+  "gale crater, the selected landing site for curiosity",
+
+  "gale crater the selected landing site for curiosity",
+
+  "curiosity cradled by gale crater",
+
+  "curiosity's chemcam views summit and cliffs beyond gale crater",
+
+  "curiositys chemcam views summit and cliffs beyond gale crater",
+
+  "perseverance's landing spot in jezero crater",
+
+  "perseverances landing spot in jezero crater",
+
+  /* Step 5A.4 */
+
+  "perseverance's location at the base of jezero crater's rim",
+
+  "perseverances location at the base of jezero craters rim",
+
+  "location at the base of jezero crater's rim",
+
+  "location at the base of jezero craters rim",
+
+  "perseverance drills a rock on jezero crater rim",
+
+  "drills a rock on jezero crater rim",
+
+  "drills a rock",
+
+  "perseverance rover landing ellipse in jezero crater",
+
+  "rover landing ellipse in jezero crater",
+
+  "landing ellipse in jezero crater",
+
+  "curiosity gif shows drifting clouds over mars' mount sharp",
+
+  "curiosity gif shows drifting clouds over mars mount sharp",
+
+  "gif shows drifting clouds",
+
+  "curiosity progress on route from glenelg to mount sharp",
+
+  "progress on route from glenelg to mount sharp",
+
+  "progress on route",
+
+  "curiosity's proposed path up mount sharp",
+
+  "curiositys proposed path up mount sharp",
+
+  "proposed path up mount sharp",
+
+  /* ----------------------------------------------
+     Step 5A.5
+
+     Final rover-arm / target documentation.
+  ---------------------------------------------- */
+
+  "curiosity arm over marimba target on mount sharp",
+
+  "curiosity arm over marimba target",
+
+  "arm over marimba target",
+
+  "marimba target on mount sharp",
+
+  "marimba target",
 ];
 
 /* --------------------------------------------------
@@ -382,18 +497,73 @@ const KNOWN_BAD_MARS_TITLE_FRAGMENTS = [
 -------------------------------------------------- */
 
 const MARS_REJECT_TERMS = [
-  /* ----------------------------------------------
-     Older archive families
-  ---------------------------------------------- */
+  /* Older surface missions */
 
   "opportunity",
   "spirit",
   "pathfinder",
   "phoenix",
 
-  /* ----------------------------------------------
-     Navigation / routes
-  ---------------------------------------------- */
+  /* Opportunity-era geography */
+
+  "perseverance valley",
+  "endeavour crater",
+  "murray ridge",
+  "cape byron",
+  "winnemucca",
+
+  /* Orbital missions */
+
+  "mars odyssey",
+  "odyssey all stars",
+  "mars express",
+  "mars express orbiter",
+  "esa mars express",
+  "esa's mars express",
+
+  /* Earth test imagery */
+
+  "death valley national park",
+  "death valley",
+  "drone software",
+  "researchers test",
+  "field testing",
+  "field test",
+  "rendering of mars",
+
+  /* Simulated / reconstructed environments */
+
+  "simulated view",
+  "simulation",
+  "simulated lake",
+  "simulated crater",
+  "computer-generated",
+  "computer generated",
+  "reconstruction",
+  "reconstructed view",
+
+  /* Oblique / exaggerated scientific views */
+
+  "oblique view",
+  "vertical exaggeration",
+  "vertically exaggerated",
+  "exaggerated relief",
+  "perspective view",
+  "perspective rendering",
+
+  /* Landing-site documentation */
+
+  "landing site",
+  "landing-site",
+  "landing spot",
+  "landing zone",
+  "selected landing site",
+  "candidate landing site",
+  "proposed landing site",
+  "landing ellipse",
+  "rover landing ellipse",
+
+  /* Navigation / routes */
 
   "ground track",
   "ground tracks",
@@ -419,9 +589,15 @@ const MARS_REJECT_TERMS = [
   "traverses",
   "traversing",
 
-  /* ----------------------------------------------
-     Scientific mapping
-  ---------------------------------------------- */
+  "progress on route",
+
+  "proposed path",
+
+  "planned path",
+
+  "route progress",
+
+  /* Scientific mapping */
 
   "mineral map",
   "minerals map",
@@ -454,9 +630,23 @@ const MARS_REJECT_TERMS = [
   "data map",
   "measurement map",
 
-  /* ----------------------------------------------
-     Scientific presentation
-  ---------------------------------------------- */
+  /* Models */
+
+  "terrain model",
+
+  "digital terrain model",
+
+  "digital elevation model",
+
+  "elevation model",
+
+  "topographic model",
+
+  "3d terrain model",
+
+  "3-d terrain model",
+
+  /* Scientific presentation */
 
   "research panel",
   "comparison panel",
@@ -470,9 +660,7 @@ const MARS_REJECT_TERMS = [
 
   "annotated",
 
-  /* ----------------------------------------------
-     Processed / constructed image products
-  ---------------------------------------------- */
+  /* Processed products */
 
   "stereo",
 
@@ -488,6 +676,8 @@ const MARS_REJECT_TERMS = [
 
   "full-circle",
   "full circle",
+
+  "mosaic",
 
   "navigation mosaic",
   "science mosaic",
@@ -523,12 +713,21 @@ const MARS_REJECT_TERMS = [
   "false colour",
   "false-colour",
 
-  /* ----------------------------------------------
-     Too close / technical
-  ---------------------------------------------- */
+  /* Instrument / close-detail products */
 
   "microscopic",
   "microscope",
+
+  "micro-imager",
+  "micro imager",
+
+  "chemcam",
+
+  "chem cam",
+
+  "remote micro-imager",
+
+  "remote micro imager",
 
   "soil close-up",
   "soil closeup",
@@ -538,9 +737,71 @@ const MARS_REJECT_TERMS = [
 
   "telephoto",
 
+  "rock stripes pattern",
+
+  "shadows draw attention to features",
+
   /* ----------------------------------------------
-     Rover-documentation imagery
+     Rover activity / hardware
+
+     Step 5A.5 additions are deliberately narrow.
   ---------------------------------------------- */
+
+  "curiosity arm over",
+
+  "arm over marimba",
+
+  "marimba target",
+
+  "rover arm",
+
+  "rover's arm",
+
+  "robotic arm",
+
+  "instrument arm",
+
+  "drills a rock",
+
+  "drilling a rock",
+
+  "drilling rock",
+
+  "location at the base",
+
+  "rover location",
+
+  "rover's location",
+
+  "rover position",
+
+  "rover's position",
+
+  /* GIF/media products */
+
+  "gif shows",
+
+  "animated gif",
+
+  "gif animation",
+
+  /* Orbital / overhead products */
+
+  "as seen by mars express",
+
+  "as seen by esa",
+
+  "seen by esa",
+
+  "seen by mars express",
+
+  "overhead view",
+
+  "orbital perspective",
+
+  "cradled by gale crater",
+
+  /* Rover documentation */
 
   "self-portrait",
   "self portrait",
@@ -564,6 +825,16 @@ const MARS_REJECT_TERMS = [
 
   "rover track",
   "rover tracks",
+
+  "curiosity tracks",
+
+  "perseverance tracks",
+
+  "tracks in hidden valley",
+
+  "tracks across",
+
+  "tracks on mars",
 
   "drives backward",
 
@@ -589,9 +860,7 @@ const MARS_REJECT_TERMS = [
 
   "rover ramp",
 
-  /* ----------------------------------------------
-     Engineering
-  ---------------------------------------------- */
+  /* Engineering */
 
   "instrument test",
 
@@ -609,9 +878,7 @@ const MARS_REJECT_TERMS = [
 
   "briefing",
 
-  /* ----------------------------------------------
-     Planning
-  ---------------------------------------------- */
+  /* Planning */
 
   "sample return landing site",
 
@@ -621,9 +888,7 @@ const MARS_REJECT_TERMS = [
 
   "will visit",
 
-  /* ----------------------------------------------
-     Media / documentary products
-  ---------------------------------------------- */
+  /* Media */
 
   "movie",
 
@@ -637,17 +902,7 @@ const MARS_REJECT_TERMS = [
 
   "sends a postcard",
 
-  /* ----------------------------------------------
-     Orbital views
-
-     This is a surface-exploration gallery.
-
-     Important:
-     Do NOT ban the word "orbiter" because the good
-     result "Curiosity Captures Mars Landscape While
-     Talking to an Orbiter" is still visually a real
-     Martian landscape.
-  ---------------------------------------------- */
+  /* Orbital views */
 
   "seen from mars orbit",
 
@@ -661,15 +916,11 @@ const MARS_REJECT_TERMS = [
 
   "orbital image",
 
-  /* ----------------------------------------------
-     Wrong primary subject
-  ---------------------------------------------- */
+  /* Wrong subject */
 
   "asteroid",
 
-  /* ----------------------------------------------
-     Remaining false-positive categories
-  ---------------------------------------------- */
+  /* Remaining false positives */
 
   "crossbedded",
 
@@ -686,6 +937,211 @@ const MARS_REJECT_TERMS = [
   "spreading the delta",
 
   "dust devil",
+];
+
+/* --------------------------------------------------
+   Mars — older / orbital mission metadata
+-------------------------------------------------- */
+
+const MARS_NON_SURFACE_DESCRIPTION_TERMS = [
+  "mars exploration rover opportunity",
+
+  "nasa's mars exploration rover opportunity",
+
+  "nasa mars exploration rover opportunity",
+
+  "opportunity rover",
+
+  "opportunity's",
+
+  "mars exploration rover spirit",
+
+  "nasa's mars exploration rover spirit",
+
+  "nasa mars exploration rover spirit",
+
+  "spirit rover",
+
+  "mars pathfinder",
+
+  "pathfinder mission",
+
+  "phoenix mars lander",
+
+  "phoenix lander",
+
+  "2001 mars odyssey",
+
+  "mars odyssey spacecraft",
+
+  "mars odyssey orbiter",
+
+  "mars reconnaissance orbiter",
+
+  "high resolution imaging science experiment",
+
+  "high-resolution imaging science experiment",
+
+  "mars global surveyor",
+
+  "thermal emission imaging system",
+
+  "mars express",
+
+  "mars express orbiter",
+
+  "esa's mars express",
+
+  "european space agency's mars express",
+
+  "high resolution stereo camera",
+
+  "high-resolution stereo camera",
+];
+
+const MARS_NON_SURFACE_KEYWORD_TERMS = [
+  "opportunity",
+  "spirit",
+  "pathfinder",
+  "phoenix",
+
+  "mars odyssey",
+
+  "mars reconnaissance orbiter",
+
+  "hirise",
+
+  "mars global surveyor",
+
+  "themis",
+
+  "mars express",
+
+  "hrsc",
+];
+
+/* --------------------------------------------------
+   Mars — Earth-test metadata
+-------------------------------------------------- */
+
+const MARS_EARTH_TEST_TERMS = [
+  "death valley",
+
+  "death valley national park",
+
+  "earth analog",
+
+  "earth analogue",
+
+  "mars analog",
+
+  "mars analogue",
+
+  "field test",
+
+  "field testing",
+
+  "test site",
+
+  "drone software",
+
+  "researchers test mars",
+
+  "testing mars technology",
+];
+
+/* --------------------------------------------------
+   Mars — technical / activity metadata
+-------------------------------------------------- */
+
+const MARS_TECHNICAL_METADATA_TERMS = [
+  "vertical exaggeration",
+
+  "vertically exaggerated",
+
+  "simulated view",
+
+  "simulation of",
+
+  "computer-generated view",
+
+  "computer generated view",
+
+  "digital terrain model",
+
+  "digital elevation model",
+
+  "perspective view",
+
+  "oblique perspective",
+
+  "landing site",
+
+  "landing-site",
+
+  "landing spot",
+
+  "selected landing site",
+
+  "candidate landing site",
+
+  "landing ellipse",
+
+  "remote micro-imager",
+
+  "remote micro imager",
+
+  "chemcam",
+
+  "chem cam",
+
+  "progress on route",
+
+  "proposed path",
+
+  "planned path",
+
+  "drills a rock",
+
+  "drilling a rock",
+
+  "rover location",
+
+  "location at the base",
+
+  "animated gif",
+
+  "gif animation",
+
+  /* Step 5A.5 */
+
+  "curiosity arm over",
+
+  "arm over marimba",
+
+  "marimba target",
+
+  "rover arm",
+
+  "robotic arm",
+
+  "instrument arm",
+];
+
+/* --------------------------------------------------
+   Mars — Opportunity geography
+-------------------------------------------------- */
+
+const MARS_OPPORTUNITY_GEOGRAPHY = [
+  "perseverance valley",
+
+  "endeavour crater",
+
+  "murray ridge",
+
+  "cape byron",
+
+  "winnemucca",
 ];
 
 /* --------------------------------------------------
@@ -774,10 +1230,6 @@ const MARS_NAMED_TERRAIN = [
 -------------------------------------------------- */
 
 const TOPICS = new Map([
-  /* ------------------------------------------------
-     Nebula
-  ------------------------------------------------ */
-
   [
     "nebula",
     {
@@ -824,27 +1276,10 @@ const TOPICS = new Map([
     },
   ],
 
-  /* ------------------------------------------------
-     Mars
-  ------------------------------------------------ */
-
   [
     "mars",
     {
       canonical: "Mars",
-
-      /*
-        IMPORTANT CHANGE:
-
-        Retrieval is broader now, but it is still
-        completely visual-first.
-
-        We are NOT reducing the rejection rules.
-
-        Broad scene queries give the strict Mars
-        contract a larger pool of candidates from
-        which it can find clean images.
-      */
 
       queries: [
         "Mars landscape",
@@ -869,13 +1304,6 @@ const TOPICS = new Map([
         "Perseverance Mars rocky terrain",
       ],
 
-      /*
-        Mars retrieves 28 candidates per query.
-
-        Other topics continue to use the normal
-        CURATED_RESULTS_PER_QUERY value.
-      */
-
       pageSize: 28,
 
       subject: ["mars", "martian", "curiosity", "perseverance"],
@@ -884,30 +1312,11 @@ const TOPICS = new Map([
 
       reject: MARS_REJECT_TERMS,
 
-      /*
-        Keep the working quality threshold.
-
-        Do NOT lower this simply to fill the grid.
-      */
-
       minScore: 22,
-
-      /*
-        Maximum only.
-
-        We do not force 12 results.
-
-        6–10 excellent cards are better than
-        12 cards containing weak imagery.
-      */
 
       maxResults: 12,
     },
   ],
-
-  /* ------------------------------------------------
-     Earth
-  ------------------------------------------------ */
 
   [
     "earth",
@@ -943,10 +1352,6 @@ const TOPICS = new Map([
       maxResults: 24,
     },
   ],
-
-  /* ------------------------------------------------
-     Galaxy
-  ------------------------------------------------ */
 
   [
     "galaxy",
@@ -990,10 +1395,6 @@ const TOPICS = new Map([
     },
   ],
 
-  /* ------------------------------------------------
-     Moon
-  ------------------------------------------------ */
-
   [
     "moon",
     {
@@ -1031,10 +1432,6 @@ const TOPICS = new Map([
       maxResults: 24,
     },
   ],
-
-  /* ------------------------------------------------
-     Jupiter
-  ------------------------------------------------ */
 
   [
     "jupiter",
@@ -1088,8 +1485,14 @@ const TOPICS = new Map([
 -------------------------------------------------- */
 
 let currentSearchTerm = "";
+
 let activeController = null;
+
 let latestRequestId = 0;
+
+let detailsReturnScrollY = 0;
+
+let detailsReturnTrigger = null;
 
 /* --------------------------------------------------
    Text helpers
@@ -1233,10 +1636,6 @@ function passesGlobalEligibility(context) {
 -------------------------------------------------- */
 
 function passesMarsContract(context) {
-  /* ----------------------------------------------
-     Verified preview failures
-  ---------------------------------------------- */
-
   if (KNOWN_BAD_MARS_NASA_IDS.has(context.nasaId)) {
     return false;
   }
@@ -1245,17 +1644,9 @@ function passesMarsContract(context) {
     return false;
   }
 
-  /* ----------------------------------------------
-     Hard editorial categories
-  ---------------------------------------------- */
-
   if (includesAny(context.title, MARS_REJECT_TERMS)) {
     return false;
   }
-
-  /* ----------------------------------------------
-     People / presentations
-  ---------------------------------------------- */
 
   if (
     includesAny(context.title, [
@@ -1273,16 +1664,35 @@ function passesMarsContract(context) {
     return false;
   }
 
-  /* ----------------------------------------------
-     Mars must genuinely be the subject
-  ---------------------------------------------- */
+  const combinedMetadata = [
+    context.primaryTitle,
+    context.description,
+    context.keywordText,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
-  const titleHasMars = includesAny(context.primaryTitle, ["mars", "martian"]);
+  if (includesAny(combinedMetadata, MARS_OPPORTUNITY_GEOGRAPHY)) {
+    return false;
+  }
 
-  const modernRover = includesAny(context.primaryTitle, [
-    "curiosity",
+  if (includesAny(combinedMetadata, MARS_EARTH_TEST_TERMS)) {
+    return false;
+  }
+
+  if (includesAny(combinedMetadata, MARS_TECHNICAL_METADATA_TERMS)) {
+    return false;
+  }
+
+  const titleHasCuriosity = includesAny(context.primaryTitle, ["curiosity"]);
+
+  const titleHasPerseverance = includesAny(context.primaryTitle, [
     "perseverance",
   ]);
+
+  const modernRover = titleHasCuriosity || titleHasPerseverance;
+
+  const titleHasMars = includesAny(context.primaryTitle, ["mars", "martian"]);
 
   const marsKeywords = includesAny(context.keywordText, [
     "mars",
@@ -1295,14 +1705,19 @@ function passesMarsContract(context) {
     return false;
   }
 
-  /* ----------------------------------------------
-     Require an actual environment
+  const nonSurfaceDescription = includesAny(
+    context.description,
+    MARS_NON_SURFACE_DESCRIPTION_TERMS,
+  );
 
-     Generic "surface" alone is NOT enough.
+  const nonSurfaceKeywords = includesAny(
+    context.keywordText,
+    MARS_NON_SURFACE_KEYWORD_TERMS,
+  );
 
-     A result needs proper environmental evidence:
-     landscape, horizon, crater, dune, valley, etc.
-  ---------------------------------------------- */
+  if (!modernRover && (nonSurfaceDescription || nonSurfaceKeywords)) {
+    return false;
+  }
 
   const landscapeEvidence = countMatches(
     context.primaryTitle,
@@ -1314,18 +1729,6 @@ function passesMarsContract(context) {
   if (landscapeEvidence === 0 && !namedTerrain) {
     return false;
   }
-
-  /* ----------------------------------------------
-     Panorama quality rule
-
-     We are NOT banning panoramas.
-
-     We reject the kinds of panorama titles that have
-     repeatedly produced obvious stitching / geometry
-     problems.
-
-     Clean landscape panoramas can still survive.
-  ---------------------------------------------- */
 
   const isPanorama = includesAny(context.primaryTitle, [
     "panorama",
@@ -1582,25 +1985,13 @@ function scoreCuratedCandidate(context, topicKey, rule) {
 
   let score = 0;
 
-  /* ----------------------------------------------
-     Title evidence dominates
-  ---------------------------------------------- */
-
   score += countMatches(context.primaryTitle, rule.subject) * 26;
 
   score += countMatches(context.primaryTitle, rule.scene) * 14;
 
-  /* ----------------------------------------------
-     Keywords only support
-  ---------------------------------------------- */
-
   score += Math.min(countMatches(context.keywordText, rule.subject), 3) * 4;
 
   score += Math.min(countMatches(context.keywordText, rule.scene), 3) * 2;
-
-  /* ----------------------------------------------
-     Mars editorial ordering
-  ---------------------------------------------- */
 
   if (topicKey === "mars") {
     const landscapeSignals = countMatches(
@@ -1609,11 +2000,6 @@ function scoreCuratedCandidate(context, topicKey, rule) {
     );
 
     score += Math.min(landscapeSignals, 4) * 10;
-
-    /*
-      Clean environment words receive the highest
-      extra ranking weight.
-    */
 
     if (
       includesAny(context.primaryTitle, [
@@ -1625,10 +2011,6 @@ function scoreCuratedCandidate(context, topicKey, rule) {
     ) {
       score += 24;
     }
-
-    /*
-      Strong Martian geography.
-    */
 
     if (
       includesAny(context.primaryTitle, [
@@ -1646,40 +2028,13 @@ function scoreCuratedCandidate(context, topicKey, rule) {
       score += 16;
     }
 
-    /*
-      Modern rover source gets only a small bonus.
-
-      The rover should never become more important
-      than the landscape itself.
-    */
-
     if (includesAny(context.primaryTitle, ["curiosity", "perseverance"])) {
       score += 4;
     }
 
-    /*
-      Panoramas are allowed but deliberately do not
-      receive an advantage.
-
-      This pushes cleaner single-scene images higher.
-    */
-
     if (includesAny(context.primaryTitle, ["panorama", "panoramic"])) {
       score -= 8;
     }
-
-    /*
-      Rover / mission-documentary language receives
-      a small penalty.
-
-      This still allows:
-
-      Curiosity Captures Mars Landscape While Talking
-      to an Orbiter
-
-      because the visible landscape is genuinely
-      relevant.
-    */
 
     if (
       includesAny(context.primaryTitle, [
@@ -1745,11 +2100,8 @@ function getVisualSignature(title) {
 
 function deduplicateResults(items) {
   const ids = new Set();
-
   const urls = new Set();
-
   const titles = new Set();
-
   const visualSignatures = new Set();
 
   const unique = [];
@@ -1803,13 +2155,6 @@ async function searchCuratedCandidates(rule, signal) {
   const requests = rule.queries.map((query) => {
     return searchNasaImages(query, {
       signal,
-
-      /*
-              Important:
-              Mars can now use its own candidate
-              page size without changing the other
-              curated topics.
-            */
 
       pageSize: rule.pageSize ?? CURATED_RESULTS_PER_QUERY,
 
@@ -1865,33 +2210,376 @@ function getSafeRemoteUrl(value) {
 }
 
 /* --------------------------------------------------
+   NASA description HTML -> safe plain text
+-------------------------------------------------- */
+
+function htmlToPlainText(value) {
+  if (typeof value !== "string" || !value.trim()) {
+    return "";
+  }
+
+  const parser = new DOMParser();
+
+  const documentFragment = parser.parseFromString(value, "text/html");
+
+  documentFragment
+    .querySelectorAll("script, style, noscript, template, svg")
+    .forEach((element) => {
+      element.remove();
+    });
+
+  documentFragment.querySelectorAll("br").forEach((element) => {
+    element.replaceWith(documentFragment.createTextNode("\n"));
+  });
+
+  documentFragment
+    .querySelectorAll(
+      "p, div, section, article, li, h1, h2, h3, h4, h5, h6, blockquote",
+    )
+    .forEach((element) => {
+      element.append(documentFragment.createTextNode("\n"));
+    });
+
+  const text = documentFragment.body.textContent ?? "";
+
+  return text
+    .replace(/\r\n?/g, "\n")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n[ \t]+/g, "\n")
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+/* --------------------------------------------------
+   Details helpers
+-------------------------------------------------- */
+
+function getResultTitle(result) {
+  return typeof result?.title === "string" && result.title.trim()
+    ? result.title.trim()
+    : "Untitled NASA image";
+}
+
+function getResultDescription(result) {
+  const candidates = [
+    result?.description,
+    result?.description508,
+    result?.description_508,
+  ];
+
+  const description = candidates.find((value) => {
+    return typeof value === "string" && value.trim();
+  });
+
+  if (!description) {
+    return "No description is available for this NASA image.";
+  }
+
+  const cleaned = htmlToPlainText(description);
+
+  return cleaned || "No description is available for this NASA image.";
+}
+
+function formatNasaDate(value) {
+  if (typeof value !== "string" || !value.trim()) {
+    return "Not available";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return value.trim();
+  }
+
+  return new Intl.DateTimeFormat("en", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
+
+function getNasaDetailsUrl(nasaId) {
+  const id = typeof nasaId === "string" ? nasaId.trim() : "";
+
+  if (!id) {
+    return null;
+  }
+
+  return `https://images.nasa.gov/details/${encodeURIComponent(id)}`;
+}
+
+function resetDetailsImage() {
+  detailsImage.onerror = null;
+
+  detailsImage.removeAttribute("src");
+
+  detailsImage.alt = "";
+
+  detailsImage.hidden = true;
+
+  detailsImage.style.display = "none";
+
+  detailsImageFallback.hidden = true;
+}
+
+function setDetailsImage(result, fullTitle) {
+  resetDetailsImage();
+
+  const imageUrl = getSafeRemoteUrl(result?.imageUrl);
+
+  detailsImageFallback.setAttribute(
+    "aria-label",
+    `Image unavailable for ${fullTitle}`,
+  );
+
+  if (!imageUrl) {
+    detailsImageFallback.hidden = false;
+
+    return;
+  }
+
+  detailsImage.alt = fullTitle;
+
+  detailsImage.hidden = false;
+
+  detailsImage.style.removeProperty("display");
+
+  detailsImage.onerror = () => {
+    detailsImage.hidden = true;
+
+    detailsImage.style.display = "none";
+
+    detailsImageFallback.hidden = false;
+  };
+
+  detailsImage.src = imageUrl;
+}
+
+/* --------------------------------------------------
+   Step 5B.2
+   Safe focus helper
+-------------------------------------------------- */
+
+function focusWithoutScroll(element) {
+  if (!element || typeof element.focus !== "function") {
+    return;
+  }
+
+  try {
+    element.focus({
+      preventScroll: true,
+    });
+  } catch {
+    element.focus();
+  }
+}
+
+/* --------------------------------------------------
+   Step 5B.2
+   Details panel accessibility setup
+-------------------------------------------------- */
+
+function configureDetailsPanel() {
+  detailsPanel.setAttribute("tabindex", "-1");
+
+  detailsPanel.setAttribute("aria-labelledby", "details-title");
+}
+
+/* --------------------------------------------------
+   Populate Details
+-------------------------------------------------- */
+
+function populateDetails(result) {
+  const fullTitle = getResultTitle(result);
+
+  detailsTitle.textContent = fullTitle;
+
+  detailsSource.textContent =
+    typeof result?.center === "string" && result.center.trim()
+      ? result.center.trim()
+      : "NASA";
+
+  detailsDate.textContent = formatNasaDate(
+    result?.dateCreated ?? result?.date_created ?? result?.date ?? "",
+  );
+
+  const nasaId =
+    typeof result?.nasaId === "string" && result.nasaId.trim()
+      ? result.nasaId.trim()
+      : "";
+
+  detailsNasaId.textContent = nasaId || "Not available";
+
+  detailsDescription.textContent = getResultDescription(result);
+
+  setDetailsImage(result, fullTitle);
+
+  const sourceUrl = getNasaDetailsUrl(nasaId);
+
+  if (sourceUrl) {
+    detailsSourceLink.href = sourceUrl;
+
+    detailsSourceLink.hidden = false;
+  } else {
+    detailsSourceLink.removeAttribute("href");
+
+    detailsSourceLink.hidden = true;
+  }
+}
+
+/* --------------------------------------------------
+   Step 5B.2
+   Open Details
+-------------------------------------------------- */
+
+function openDetails(result, trigger) {
+  if (!result || detailsPanel.hidden === false) {
+    return;
+  }
+
+  /*
+    Remember exactly where the user was before
+    entering the Details view.
+  */
+
+  detailsReturnScrollY = window.scrollY;
+
+  detailsReturnTrigger = trigger instanceof HTMLElement ? trigger : null;
+
+  populateDetails(result);
+
+  /*
+    Hide the search/results view completely.
+    The hidden attribute also removes those sections
+    from the keyboard tab order and accessibility tree.
+  */
+
+  exploreHero.hidden = true;
+
+  exploreResultsSection.hidden = true;
+
+  detailsPanel.hidden = false;
+
+  document.title = `${getResultTitle(result)} | ORBIT`;
+
+  /*
+    Details is a new in-page view.
+
+    Start from the top without smooth scrolling so the
+    user never lands halfway through the Details panel.
+  */
+
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "auto",
+  });
+
+  /*
+    Move keyboard/screen-reader focus into the Details
+    view after the browser has rendered it.
+  */
+
+  window.requestAnimationFrame(() => {
+    focusWithoutScroll(detailsPanel);
+  });
+}
+
+/* --------------------------------------------------
+   Step 5B.2
+   Close Details and restore previous state
+-------------------------------------------------- */
+
+function closeDetails() {
+  if (detailsPanel.hidden) {
+    return;
+  }
+
+  /*
+    Keep local copies before clearing the stored state.
+  */
+
+  const returnScrollY = detailsReturnScrollY;
+
+  const returnTrigger = detailsReturnTrigger;
+
+  detailsReturnTrigger = null;
+
+  detailsPanel.hidden = true;
+
+  exploreHero.hidden = false;
+
+  exploreResultsSection.hidden = false;
+
+  document.title = "ORBIT | Explore";
+
+  resetDetailsImage();
+
+  /*
+    Wait until the results layout is visible again,
+    restore the previous scroll location, then restore
+    keyboard focus to the exact Details link that
+    opened the panel.
+  */
+
+  window.requestAnimationFrame(() => {
+    window.scrollTo({
+      top: returnScrollY,
+      left: 0,
+      behavior: "auto",
+    });
+
+    window.requestAnimationFrame(() => {
+      if (returnTrigger?.isConnected) {
+        focusWithoutScroll(returnTrigger);
+
+        return;
+      }
+
+      /*
+            Safe fallback if the original card was ever
+            removed before Details closes.
+          */
+
+      focusWithoutScroll(searchInput);
+    });
+  });
+}
+
+/* --------------------------------------------------
+   Step 5B.2
+   Details Back control
+-------------------------------------------------- */
+
+function handleDetailsBack(event) {
+  /*
+    Prevent an accidental hash/page jump if the
+    control is ever changed from a button to a link.
+  */
+
+  event.preventDefault();
+
+  closeDetails();
+}
+
+/* --------------------------------------------------
+   Step 5B.2
+   Escape closes Details
+-------------------------------------------------- */
+
+function handleDetailsKeydown(event) {
+  if (event.key !== "Escape" || detailsPanel.hidden) {
+    return;
+  }
+
+  event.preventDefault();
+
+  closeDetails();
+}
+
+/* --------------------------------------------------
    Image preflight
-
-   IMPORTANT:
-
-   Do NOT set:
-
-   image.crossOrigin = "anonymous"
-
-   and do NOT fetch the NASA image manually.
-
-   NASA image assets do not consistently return the
-   CORS headers needed for pixel inspection.
-
-   That was the cause of your earlier:
-
-   blocked by CORS policy
-
-   errors.
-
-   We therefore safely check:
-
-   - URL
-   - actual image load
-   - natural dimensions
-   - aspect ratio
-
-   Mars receives slightly stricter values.
 -------------------------------------------------- */
 
 function verifyImagePreview(result, signal, topicKey) {
@@ -1951,15 +2639,6 @@ function verifyImagePreview(result, signal, topicKey) {
     image.onload = () => {
       const ratio = image.naturalWidth / image.naturalHeight;
 
-      /*
-          Mars gets a slightly stricter preflight.
-
-          This will not detect every black stitched
-          region because that would require reading
-          cross-origin pixels, but it removes undersized
-          and extreme-format previews safely.
-        */
-
       if (topicKey === "mars") {
         const largeEnough =
           image.naturalWidth >= MARS_MIN_PREVIEW_WIDTH &&
@@ -1983,13 +2662,6 @@ function verifyImagePreview(result, signal, topicKey) {
     };
 
     image.onerror = () => {
-      /*
-          A failed NASA preview is not an application
-          error.
-
-          Simply discard it.
-        */
-
       finish(false);
     };
 
@@ -2023,24 +2695,14 @@ async function filterUsablePreviews(rankedItems, signal, maxResults, topicKey) {
       throw new DOMException("Search aborted", "AbortError");
     }
 
-    const batch = rankedItems.slice(
-      start,
-
-      start + IMAGE_PREFLIGHT_BATCH_SIZE,
-    );
+    const batch = rankedItems.slice(start, start + IMAGE_PREFLIGHT_BATCH_SIZE);
 
     const checked = await Promise.all(
       batch.map(async (result) => {
         return {
           result,
 
-          usable: await verifyImagePreview(
-            result,
-
-            signal,
-
-            topicKey,
-          ),
+          usable: await verifyImagePreview(result, signal, topicKey),
         };
       }),
     );
@@ -2136,7 +2798,7 @@ function updateUrlQuery(query) {
 }
 
 /* --------------------------------------------------
-   Topic button state
+   Topic state
 -------------------------------------------------- */
 
 function updateTopicSelection(query) {
@@ -2149,11 +2811,7 @@ function updateTopicSelection(query) {
       selectedTopic !== null &&
       topic.toLowerCase() === selectedTopic.toLowerCase();
 
-    button.setAttribute(
-      "aria-pressed",
-
-      String(selected),
-    );
+    button.setAttribute("aria-pressed", String(selected));
   });
 }
 
@@ -2168,11 +2826,7 @@ function createImageFallback(title) {
 
   fallback.setAttribute("role", "img");
 
-  fallback.setAttribute(
-    "aria-label",
-
-    `Image unavailable for ${title}`,
-  );
+  fallback.setAttribute("aria-label", `Image unavailable for ${title}`);
 
   const label = document.createElement("span");
 
@@ -2194,10 +2848,7 @@ function createResultCard(result) {
 
   article.dataset.nasaId = result.nasaId ?? "";
 
-  const fullTitle =
-    typeof result.title === "string" && result.title.trim()
-      ? result.title.trim()
-      : "Untitled NASA image";
+  const fullTitle = getResultTitle(result);
 
   const media = document.createElement("div");
 
@@ -2215,20 +2866,16 @@ function createResultCard(result) {
     image.alt = fullTitle;
 
     image.width = 640;
-
     image.height = 400;
 
     image.loading = "lazy";
-
     image.decoding = "async";
 
     image.addEventListener(
       "error",
-
       () => {
         image.replaceWith(createImageFallback(fullTitle));
       },
-
       {
         once: true,
       },
@@ -2251,7 +2898,11 @@ function createResultCard(result) {
 
   title.textContent = getDisplayTitle(fullTitle);
 
-  title.title = fullTitle;
+  /*
+    Full title remains available to assistive
+    technology without creating the browser-native
+    title tooltip removed in Step 5B.1.
+  */
 
   title.setAttribute("aria-label", fullTitle);
 
@@ -2263,7 +2914,42 @@ function createResultCard(result) {
 
   info.append(title, source);
 
-  body.append(info);
+  const actions = document.createElement("div");
+
+  actions.className = "media-card__actions";
+
+  const detailsLink = document.createElement("a");
+
+  detailsLink.className = "media-card__details";
+
+  detailsLink.href = "#details-panel";
+
+  detailsLink.textContent = "Details";
+
+  /*
+    Tell assistive technology which in-page region
+    this link opens.
+  */
+
+  detailsLink.setAttribute("aria-controls", "details-panel");
+
+  detailsLink.setAttribute("aria-label", `View details for ${fullTitle}`);
+
+  detailsLink.addEventListener("click", (event) => {
+    /*
+        Prevent the href="#details-panel" fallback
+        from changing the hash or causing an unwanted
+        browser jump.
+      */
+
+    event.preventDefault();
+
+    openDetails(result, detailsLink);
+  });
+
+  actions.append(detailsLink);
+
+  body.append(info, actions);
 
   article.append(media, body);
 
@@ -2320,7 +3006,6 @@ function handleBlankSearch() {
 
   setGuidance(
     "Enter a keyword or choose one of the popular topics before searching.",
-
     true,
   );
 
@@ -2370,15 +3055,11 @@ async function runSearch(query, { updateUrl = true } = {}) {
 
   let requestTimedOut = false;
 
-  const timeoutId = window.setTimeout(
-    () => {
-      requestTimedOut = true;
+  const timeoutId = window.setTimeout(() => {
+    requestTimedOut = true;
 
-      controller.abort();
-    },
-
-    REQUEST_TIMEOUT_MS,
-  );
+    controller.abort();
+  }, REQUEST_TIMEOUT_MS);
 
   loadingTitle.textContent = topicRule
     ? `Curating NASA imagery for “${finalQuery}”…`
@@ -2397,14 +3078,9 @@ async function runSearch(query, { updateUrl = true } = {}) {
 
     let totalHits = 0;
 
-    /* ----------------------------------------------
-       Curated topic
-    ---------------------------------------------- */
-
     if (topicRule) {
       const candidates = await searchCuratedCandidates(
         topicRule,
-
         controller.signal,
       );
 
@@ -2412,21 +3088,12 @@ async function runSearch(query, { updateUrl = true } = {}) {
         return;
       }
 
-      const ranked = rankCuratedResults(
-        candidates,
-
-        topicKey,
-
-        topicRule,
-      );
+      const ranked = rankCuratedResults(candidates, topicKey, topicRule);
 
       displayItems = await filterUsablePreviews(
         ranked,
-
         controller.signal,
-
         topicRule.maxResults,
-
         topicKey,
       );
 
@@ -2434,21 +3101,13 @@ async function runSearch(query, { updateUrl = true } = {}) {
         return;
       }
     } else {
-      /* ----------------------------------------------
-         Normal free-text search
-      ---------------------------------------------- */
+      const result = await searchNasaImages(finalQuery, {
+        signal: controller.signal,
 
-      const result = await searchNasaImages(
-        finalQuery,
+        pageSize: STANDARD_RESULT_LIMIT,
 
-        {
-          signal: controller.signal,
-
-          pageSize: STANDARD_RESULT_LIMIT,
-
-          searchMode: SEARCH_MODES.TEXT,
-        },
-      );
+        searchMode: SEARCH_MODES.TEXT,
+      });
 
       if (requestId !== latestRequestId) {
         return;
@@ -2458,10 +3117,6 @@ async function runSearch(query, { updateUrl = true } = {}) {
 
       totalHits = result.totalHits ?? 0;
     }
-
-    /* ----------------------------------------------
-       Empty
-    ---------------------------------------------- */
 
     if (displayItems.length === 0) {
       emptyTitle.textContent = topicRule
@@ -2479,19 +3134,11 @@ async function runSearch(query, { updateUrl = true } = {}) {
       return;
     }
 
-    /* ----------------------------------------------
-       Success
-    ---------------------------------------------- */
+    renderResults(displayItems, {
+      curated: Boolean(topicRule),
 
-    renderResults(
-      displayItems,
-
-      {
-        curated: Boolean(topicRule),
-
-        totalHits,
-      },
-    );
+      totalHits,
+    });
 
     setGuidance(
       topicRule
@@ -2515,7 +3162,6 @@ async function runSearch(query, { updateUrl = true } = {}) {
 
       setGuidance(
         `The search for “${finalQuery}” timed out. You can retry.`,
-
         true,
       );
     } else {
@@ -2524,15 +3170,10 @@ async function runSearch(query, { updateUrl = true } = {}) {
 
       setGuidance(
         `NASA could not be reached for “${finalQuery}”. You can retry.`,
-
         true,
       );
 
-      console.error(
-        "ORBIT NASA search failed:",
-
-        error,
-      );
+      console.error("ORBIT NASA search failed:", error);
     }
 
     showState(SEARCH_STATES.ERROR);
@@ -2619,11 +3260,23 @@ topicButtons.forEach((button) => {
 
 retryButton.addEventListener("click", handleRetry);
 
+detailsBackButton.addEventListener("click", handleDetailsBack);
+
+document.addEventListener("keydown", handleDetailsKeydown);
+
 /* --------------------------------------------------
    Initialise
 -------------------------------------------------- */
 
 function initialiseExplore() {
+  /*
+    Step 5B.2:
+    Make the Details view programmatically focusable
+    and associate it with its heading.
+  */
+
+  configureDetailsPanel();
+
   const queryFromUrl = getQueryFromUrl();
 
   if (queryFromUrl) {
@@ -2637,13 +3290,9 @@ function initialiseExplore() {
 
     updateTopicSelection(finalQuery);
 
-    runSearch(
-      finalQuery,
-
-      {
-        updateUrl: false,
-      },
-    );
+    runSearch(finalQuery, {
+      updateUrl: false,
+    });
 
     return;
   }

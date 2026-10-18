@@ -412,6 +412,258 @@
 }
 
 /* ==================================================
+   IMAGE DETAILS
+================================================== */
+
+.details-panel {
+  padding-block: var(--space-8) var(--space-24);
+}
+
+.details-panel[hidden],
+.details-panel__image-fallback[hidden],
+#details-source-link[hidden] {
+  display: none !important;
+}
+
+/* --------------------------------------------------
+   Details navigation
+-------------------------------------------------- */
+
+.details-panel__navigation {
+  margin-bottom: var(--space-6);
+}
+
+.details-panel__back {
+  min-height: var(--control-min-height);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+
+  padding-inline: 0;
+
+  border: 0;
+
+  background: transparent;
+  color: var(--color-text-secondary);
+
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+
+  cursor: pointer;
+
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.details-panel__back:hover {
+  color: var(--color-aqua);
+
+  transform: translateX(-0.125rem);
+}
+
+.details-panel__back:active {
+  transform: translateX(0);
+}
+
+/* --------------------------------------------------
+   Details layout
+-------------------------------------------------- */
+
+.details-panel__layout {
+  display: grid;
+  gap: var(--space-8);
+
+  align-items: start;
+}
+
+.details-panel__media,
+.details-panel__content {
+  min-width: 0;
+}
+
+/* --------------------------------------------------
+   Details image
+-------------------------------------------------- */
+
+.details-panel__media {
+  overflow: hidden;
+
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-surface-raised);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.details-panel__image {
+  display: block;
+
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+
+  object-fit: contain;
+  object-position: center;
+
+  background: var(--color-surface-raised);
+}
+
+.details-panel__image-fallback {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+
+  display: grid;
+  place-items: center;
+
+  padding: var(--space-6);
+
+  background:
+    linear-gradient(135deg, rgba(46, 230, 214, 0.04), transparent 55%),
+    var(--color-surface-raised);
+
+  color: var(--color-text-secondary);
+
+  text-align: center;
+}
+
+/* --------------------------------------------------
+   Details content
+-------------------------------------------------- */
+
+.details-panel__content {
+  max-width: 48rem;
+}
+
+.details-panel__eyebrow {
+  margin-bottom: var(--space-3);
+
+  color: var(--color-aqua);
+
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.details-panel__title {
+  max-width: 22ch;
+
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------------------------
+   Details metadata
+-------------------------------------------------- */
+
+.details-panel__metadata {
+  display: grid;
+  gap: 0;
+
+  margin-top: var(--space-8);
+
+  border-top: var(--border-width) solid var(--color-border);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.details-panel__metadata-item {
+  display: grid;
+  gap: var(--space-1);
+
+  padding-block: var(--space-4);
+}
+
+.details-panel__metadata-item + .details-panel__metadata-item {
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.details-panel__metadata dt {
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.details-panel__metadata dd {
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: 0.9375rem;
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------------------------
+   Details text sections
+-------------------------------------------------- */
+
+.details-panel__description,
+.details-panel__provenance {
+  margin-top: var(--space-8);
+}
+
+.details-panel__section-title {
+  margin-bottom: var(--space-3);
+
+  color: var(--color-text-primary);
+
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.details-panel__description p,
+.details-panel__provenance p {
+  color: var(--color-text-secondary);
+
+  line-height: 1.75;
+
+  overflow-wrap: anywhere;
+}
+
+/*
+  NASA descriptions can be long and may contain
+  meaningful paragraph / line breaks.
+
+  The JavaScript already converts NASA's HTML into
+  safe plain text. pre-line allows those safe newline
+  characters to remain readable without rendering
+  NASA-provided HTML.
+*/
+
+#details-description {
+  max-width: 62ch;
+
+  white-space: pre-line;
+}
+
+/*
+  Provenance is deliberately slightly narrower than
+  the full content column to keep the final section
+  easy to scan.
+*/
+
+.details-panel__provenance p {
+  max-width: 62ch;
+}
+
+.details-panel__provenance .button {
+  margin-top: var(--space-5);
+
+  max-width: 100%;
+}
+
+/* ==================================================
    TABLET
 ================================================== */
 
@@ -423,7 +675,10 @@
   }
 
   .discover-hero__layout {
-    grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+    grid-template-columns:
+      minmax(0, 1.15fr)
+      minmax(16rem, 0.85fr);
+
     gap: var(--space-12);
   }
 
@@ -448,6 +703,20 @@
   .results-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* Details */
+
+  .details-panel {
+    padding-block: var(--space-10, 2.5rem) var(--space-24);
+  }
+
+  .details-panel__layout {
+    grid-template-columns:
+      minmax(0, 1.05fr)
+      minmax(0, 0.95fr);
+
+    gap: var(--space-8);
+  }
 }
 
 /* ==================================================
@@ -458,7 +727,10 @@
   /* Discover */
 
   .discover-hero__layout {
-    grid-template-columns: minmax(0, 1.2fr) minmax(22rem, 0.8fr);
+    grid-template-columns:
+      minmax(0, 1.2fr)
+      minmax(22rem, 0.8fr);
+
     gap: var(--space-16);
   }
 
@@ -478,5 +750,19 @@
 
   .results-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Details */
+
+  .details-panel__layout {
+    grid-template-columns:
+      minmax(0, 1.15fr)
+      minmax(24rem, 0.85fr);
+
+    gap: var(--space-12);
+  }
+
+  .details-panel__navigation {
+    margin-bottom: var(--space-8);
   }
 }

@@ -2,7 +2,9 @@
    ORBIT responsive adjustments
 -------------------------------------------------- */
 
-/* Very small mobile / reflow safeguard */
+/* --------------------------------------------------
+   Very small mobile / 320 px reflow safeguard
+-------------------------------------------------- */
 
 @media (max-width: 22.5rem) {
   .site-nav {
@@ -19,6 +21,36 @@
 
   .site-nav__link {
     padding-inline: var(--space-3);
+
     font-size: 0.875rem;
+  }
+
+  /* ------------------------------------------------
+     Details
+  ------------------------------------------------ */
+
+  .details-panel__navigation {
+    margin-bottom: var(--space-5);
+  }
+
+  .details-panel__layout {
+    gap: var(--space-6);
+  }
+
+  .details-panel__title {
+    font-size: 1.875rem;
+  }
+
+  .details-panel__metadata {
+    margin-top: var(--space-6);
+  }
+
+  .details-panel__description,
+  .details-panel__provenance {
+    margin-top: var(--space-6);
+  }
+
+  .details-panel__provenance .button {
+    width: 100%;
   }
 }

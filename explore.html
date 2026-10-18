@@ -20,7 +20,7 @@
   </head>
 
   <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#main-content"> Skip to main content </a>
 
     <header class="site-header">
       <div class="container">
@@ -49,6 +49,10 @@
     </header>
 
     <main id="main-content" class="page-main" tabindex="-1">
+      <!-- ==================================================
+           EXPLORE HERO
+      =================================================== -->
+
       <section class="explore-hero">
         <div class="container">
           <div class="explore-hero__content">
@@ -125,7 +129,15 @@
         </div>
       </section>
 
-      <section class="explore-results-section">
+      <!-- ==================================================
+           SEARCH RESULTS
+      =================================================== -->
+
+      <section
+        id="explore-results-section"
+        class="explore-results-section"
+        aria-label="NASA image results"
+      >
         <div class="container">
           <div
             id="search-status"
@@ -218,6 +230,123 @@
             class="results-grid"
             aria-label="NASA image search results"
           ></div>
+        </div>
+      </section>
+
+      <!-- ==================================================
+           IMAGE DETAILS
+      =================================================== -->
+
+      <section
+        id="details-panel"
+        class="details-panel"
+        aria-labelledby="details-title"
+        tabindex="-1"
+        hidden
+      >
+        <div class="container">
+          <div class="details-panel__navigation">
+            <button
+              id="details-back-button"
+              class="details-panel__back"
+              type="button"
+            >
+              <span aria-hidden="true">←</span>
+              Back to results
+            </button>
+          </div>
+
+          <div class="details-panel__layout">
+            <!-- Image -->
+
+            <div class="details-panel__media">
+              <img
+                id="details-image"
+                class="details-panel__image"
+                alt=""
+                width="1200"
+                height="800"
+                decoding="async"
+              />
+
+              <div
+                id="details-image-fallback"
+                class="details-panel__image-fallback"
+                role="img"
+                aria-label="NASA image unavailable"
+                hidden
+              >
+                <span>Image unavailable</span>
+              </div>
+            </div>
+
+            <!-- Information -->
+
+            <div class="details-panel__content">
+              <p class="details-panel__eyebrow">NASA Image Library</p>
+
+              <h2 id="details-title" class="details-panel__title">
+                Image details
+              </h2>
+
+              <!-- Metadata -->
+
+              <dl class="details-panel__metadata">
+                <div class="details-panel__metadata-item">
+                  <dt>Source</dt>
+
+                  <dd id="details-source">NASA</dd>
+                </div>
+
+                <div class="details-panel__metadata-item">
+                  <dt>NASA record date</dt>
+
+                  <dd id="details-date">Not available</dd>
+                </div>
+
+                <div class="details-panel__metadata-item">
+                  <dt>NASA ID</dt>
+
+                  <dd id="details-nasa-id">Not available</dd>
+                </div>
+              </dl>
+
+              <!-- Description -->
+
+              <div class="details-panel__description">
+                <h3 class="details-panel__section-title">About this image</h3>
+
+                <p id="details-description">
+                  NASA image information will appear here.
+                </p>
+              </div>
+
+              <!-- Provenance -->
+
+              <div class="details-panel__provenance">
+                <h3 class="details-panel__section-title">
+                  Source and provenance
+                </h3>
+
+                <p>
+                  This image and its metadata come from NASA's Image and Video
+                  Library.
+                </p>
+
+                <a
+                  id="details-source-link"
+                  class="button button--secondary"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  hidden
+                >
+                  View original NASA resource
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
