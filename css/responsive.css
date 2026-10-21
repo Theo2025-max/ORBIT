@@ -1,9 +1,9 @@
 /* --------------------------------------------------
-   ORBIT responsive adjustments
+    ORBIT responsive adjustments
 -------------------------------------------------- */
 
 /* --------------------------------------------------
-   Very small mobile / 320 px reflow safeguard
+    Very small mobile / 320 px reflow safeguard
 -------------------------------------------------- */
 
 @media (max-width: 22.5rem) {
@@ -26,7 +26,19 @@
   }
 
   /* ------------------------------------------------
-     Details
+      Saved
+  ------------------------------------------------ */
+
+  .saved-empty-state {
+    padding: var(--space-5);
+  }
+
+  .saved-empty-state .button {
+    width: 100%;
+  }
+
+  /* ------------------------------------------------
+      Details
   ------------------------------------------------ */
 
   .details-panel__navigation {

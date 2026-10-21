@@ -23,6 +23,7 @@
   text-decoration: none;
 
   transform: translateY(-200%);
+
   transition: transform var(--duration-fast) var(--ease-standard);
 }
 
@@ -39,6 +40,7 @@
   z-index: var(--z-header);
 
   border-bottom: var(--border-width) solid var(--color-border);
+
   background: rgba(11, 18, 32, 0.92);
 }
 
@@ -100,11 +102,13 @@
 
 .site-nav__link:hover {
   color: var(--color-text-primary);
+
   background: var(--color-surface);
 }
 
 .site-nav__link[aria-current="page"] {
   color: var(--color-text-inverse);
+
   background: var(--color-aqua);
 }
 
@@ -168,6 +172,7 @@
 
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-md);
+
   background: var(--color-surface);
 
   overflow: hidden;
@@ -175,6 +180,7 @@
 
 .hero-search:focus-within {
   border-color: var(--color-focus);
+
   box-shadow: 0 0 0 0.125rem rgba(247, 209, 84, 0.18);
 }
 
@@ -186,6 +192,7 @@
   padding: 0 var(--space-4);
 
   border: 0;
+
   background: transparent;
   color: var(--color-text-primary);
 
@@ -240,6 +247,7 @@
 
   font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
+
   text-decoration: none;
 }
 
@@ -253,6 +261,10 @@
 
 .media-card {
   min-width: 0;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
 
   overflow: hidden;
 
@@ -269,6 +281,8 @@
 
   width: 100%;
   aspect-ratio: 16 / 10;
+
+  flex-shrink: 0;
 
   overflow: hidden;
 
@@ -292,16 +306,34 @@
   transform: scale(1.025);
 }
 
+/* --------------------------------------------------
+   Media card body
+
+   The body fills the remaining card height so cards
+   with different title lengths keep their controls
+   aligned along the same bottom edge.
+-------------------------------------------------- */
+
 .media-card__body {
-  display: grid;
-  gap: var(--space-5);
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
 
   padding: var(--space-4);
+}
+
+.media-card__body > div:first-child {
+  min-width: 0;
 }
 
 .media-card__title {
   font-size: 1rem;
   line-height: 1.5rem;
+
+  overflow-wrap: anywhere;
 }
 
 .media-card__source {
@@ -309,13 +341,22 @@
 
   font-size: var(--font-size-caption);
   line-height: var(--line-height-caption);
+
+  overflow-wrap: anywhere;
 }
+
+/* --------------------------------------------------
+   Media card actions
+-------------------------------------------------- */
 
 .media-card__actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
+
+  margin-top: auto;
+  padding-top: var(--space-5);
 }
 
 .media-card__details,
@@ -328,18 +369,64 @@
 
   border-radius: var(--radius-sm);
 
+  font-family: inherit;
   font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
+
+  cursor: pointer;
 }
 
+/* --------------------------------------------------
+   Media card Details action
+
+   Details is deliberately a secondary / ghost action.
+
+   It should clearly look interactive without
+   competing visually with Save.
+-------------------------------------------------- */
+
 .media-card__details {
+  padding-inline: var(--space-4);
+
+  border: var(--border-width) solid var(--color-border);
+
+  appearance: none;
+
+  background: transparent;
   color: var(--color-text-primary);
+
   text-decoration: none;
+
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
 }
 
 .media-card__details:hover {
+  border-color: var(--color-aqua);
+
+  background: var(--color-surface-raised);
   color: var(--color-aqua);
+
+  transform: translateY(-0.0625rem);
 }
+
+.media-card__details:active {
+  transform: translateY(0);
+}
+
+.media-card__details:focus-visible {
+  outline: 0.125rem solid var(--color-focus);
+  outline-offset: 0.125rem;
+}
+
+/* --------------------------------------------------
+   Media card Save / Remove action
+
+   Save remains the stronger card action.
+-------------------------------------------------- */
 
 .media-card__save {
   padding-inline: var(--space-4);
@@ -349,14 +436,48 @@
   background: transparent;
   color: var(--color-aqua);
 
-  cursor: pointer;
-
   transition:
     background-color var(--duration-fast) var(--ease-standard),
-    color var(--duration-fast) var(--ease-standard);
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
 }
 
 .media-card__save:hover {
   background: var(--color-aqua);
   color: var(--color-text-inverse);
+
+  transform: translateY(-0.0625rem);
+}
+
+.media-card__save:active {
+  transform: translateY(0);
+}
+
+.media-card__save:focus-visible {
+  outline: 0.125rem solid var(--color-focus);
+  outline-offset: 0.125rem;
+}
+
+/* --------------------------------------------------
+   Media card Saved state
+
+   Explore uses aria-pressed="true" when the NASA
+   record is currently stored on this device.
+
+   The state changes both wording and appearance,
+   so colour is not the only indication.
+-------------------------------------------------- */
+
+.media-card__save[aria-pressed="true"] {
+  border-color: var(--color-aqua);
+
+  background: var(--color-aqua);
+  color: var(--color-text-inverse);
+}
+
+.media-card__save[aria-pressed="true"]:hover {
+  border-color: var(--color-aqua-hover);
+
+  background: var(--color-aqua-hover);
 }

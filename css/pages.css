@@ -3,26 +3,240 @@
 -------------------------------------------------- */
 
 /* ==================================================
+   DISCOVER — AMBIENT MOTION
+================================================== */
+
+@keyframes orbit-star-drift-hero {
+  from {
+    background-position:
+      1.25rem 0.75rem,
+      4rem 2.5rem,
+      8rem 5.5rem;
+  }
+
+  to {
+    background-position:
+      3rem 1.8rem,
+      2.65rem 3.65rem,
+      8.9rem 4.4rem;
+  }
+}
+
+@keyframes orbit-star-shimmer-hero {
+  from {
+    opacity: 0.48;
+  }
+
+  to {
+    opacity: 0.57;
+  }
+}
+
+@keyframes orbit-star-drift-featured {
+  from {
+    background-position:
+      2rem 5rem,
+      9rem 1rem;
+  }
+
+  to {
+    background-position:
+      3.4rem 4.15rem,
+      8.15rem 2.1rem;
+  }
+}
+
+@keyframes orbit-star-shimmer-featured {
+  from {
+    opacity: 0.2;
+  }
+
+  to {
+    opacity: 0.28;
+  }
+}
+
+/* --------------------------------------------------
+   Quiet ORBIT response
+-------------------------------------------------- */
+
+@keyframes orbit-surface-sweep {
+  0% {
+    transform: translateX(-135%);
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 0.18;
+  }
+
+  55% {
+    opacity: 0.1;
+  }
+
+  100% {
+    transform: translateX(135%);
+    opacity: 0;
+  }
+}
+
+@keyframes orbit-ring-response {
+  0%,
+  100% {
+    transform: translate3d(
+        var(--orbit-ring-shift-x),
+        var(--orbit-ring-shift-y),
+        0
+      )
+      rotate(-18deg) scaleY(0.36);
+  }
+
+  45% {
+    transform: translate3d(
+        var(--orbit-ring-shift-x),
+        var(--orbit-ring-shift-y),
+        0
+      )
+      rotate(-8deg) scaleY(0.36);
+  }
+}
+
+@keyframes orbit-glow-response {
+  0%,
+  100% {
+    border-color: rgba(118, 244, 215, 0.72);
+
+    box-shadow:
+      inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.035),
+      inset -2.75rem -3rem 5rem rgba(1, 7, 16, 0.42),
+      0 0 0 0.5rem rgba(46, 230, 214, 0.018),
+      0 0 5rem rgba(46, 230, 214, 0.085),
+      0 2.5rem 6rem rgba(0, 0, 0, 0.32);
+  }
+
+  45% {
+    border-color: rgba(118, 244, 215, 0.9);
+
+    box-shadow:
+      inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.04),
+      inset -2.75rem -3rem 5rem rgba(1, 7, 16, 0.42),
+      0 0 0 0.5rem rgba(46, 230, 214, 0.028),
+      0 0 5.75rem rgba(46, 230, 214, 0.14),
+      0 2.5rem 6rem rgba(0, 0, 0, 0.32);
+  }
+}
+
+/* ==================================================
    DISCOVER
 ================================================== */
 
-/* --------------------------------------------------
-   Discover hero
--------------------------------------------------- */
-
 .discover-hero {
-  padding-block: var(--space-8) var(--space-12);
+  position: relative;
+  isolation: isolate;
+
+  overflow: clip;
+
+  padding-block: var(--space-10, 2.5rem) var(--space-16);
+
+  background:
+    radial-gradient(
+      circle at 77% 34%,
+      rgba(46, 230, 214, 0.075),
+      transparent 27rem
+    ),
+    radial-gradient(
+      circle at 16% 24%,
+      rgba(80, 116, 255, 0.055),
+      transparent 25rem
+    );
 }
 
+.discover-hero::before {
+  content: "";
+
+  position: absolute;
+  inset: -4rem -5rem -2rem;
+
+  z-index: -2;
+
+  pointer-events: none;
+
+  opacity: 0.52;
+
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.72) 0 0.055rem,
+      transparent 0.065rem
+    ),
+    radial-gradient(
+      circle,
+      rgba(181, 200, 222, 0.52) 0 0.045rem,
+      transparent 0.06rem
+    ),
+    radial-gradient(
+      circle,
+      rgba(118, 244, 215, 0.38) 0 0.04rem,
+      transparent 0.055rem
+    );
+
+  background-size:
+    7.5rem 7.5rem,
+    11rem 11rem,
+    15rem 15rem;
+
+  background-position:
+    1.25rem 0.75rem,
+    4rem 2.5rem,
+    8rem 5.5rem;
+
+  mask-image: linear-gradient(to bottom, black 0%, black 72%, transparent 100%);
+
+  animation:
+    orbit-star-drift-hero 110s linear infinite alternate,
+    orbit-star-shimmer-hero 26s ease-in-out infinite alternate;
+}
+
+.discover-hero::after {
+  content: "";
+
+  position: absolute;
+  inset: auto -8rem -10rem 30%;
+
+  z-index: -1;
+
+  height: 25rem;
+
+  pointer-events: none;
+
+  background: radial-gradient(
+    ellipse at center,
+    rgba(46, 230, 214, 0.08),
+    rgba(31, 75, 140, 0.035) 38%,
+    transparent 72%
+  );
+
+  filter: blur(1rem);
+}
+
+/* --------------------------------------------------
+   Discover hero layout
+-------------------------------------------------- */
+
 .discover-hero__layout {
+  position: relative;
+
   display: grid;
-  gap: var(--space-8);
+  gap: var(--space-10, 2.5rem);
 
   align-items: center;
 }
 
 .discover-hero__content {
-  max-width: 42rem;
+  position: relative;
+  z-index: 2;
+
+  max-width: 43rem;
 }
 
 .eyebrow {
@@ -32,84 +246,633 @@
 
   font-size: var(--font-size-caption);
   font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .discover-hero__title {
-  max-width: 13ch;
+  max-width: 11.5ch;
 
-  font-size: clamp(3rem, 8vw, var(--font-size-display));
-  line-height: 0.98;
-  letter-spacing: -0.04em;
+  font-size: clamp(3.35rem, 9vw, var(--font-size-display));
+
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+
+  text-wrap: balance;
+
+  text-shadow: 0 1.25rem 3.5rem rgba(0, 0, 0, 0.24);
 }
 
 .discover-hero__description {
-  max-width: 36rem;
+  max-width: 35rem;
 
   margin-top: var(--space-6);
 
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+  color: var(--color-text-secondary);
+
+  font-size: 1.0625rem;
+  line-height: 1.8;
 }
 
+/* --------------------------------------------------
+   Discover primary CTA
+-------------------------------------------------- */
+
 .discover-hero .button {
-  margin-top: var(--space-5);
+  margin-top: var(--space-7, 1.75rem);
+}
+
+.discover-hero .button--primary {
+  min-height: 3rem;
+
+  padding-inline: var(--space-6);
+
+  box-shadow:
+    0 0.75rem 2rem rgba(46, 230, 214, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.discover-hero .button--primary:hover {
+  box-shadow:
+    0 1rem 2.5rem rgba(46, 230, 214, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+/* ==================================================
+   D3.1 — QUIET INTERACTIVE ORBIT OBJECT
+================================================== */
+
+@property --orbit-light-x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 33%;
+}
+
+@property --orbit-light-y {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 27%;
+}
+
+@property --orbit-ring-shift-x {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --orbit-ring-shift-y {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
 }
 
 .discover-hero__visual {
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
-  min-height: 13rem;
+  min-height: 18rem;
 }
 
-.discover-orbit-visual {
-  width: min(54vw, 13.5rem);
+.discover-hero__visual::before {
+  content: "";
+
+  position: absolute;
+
+  width: min(72vw, 24rem);
   aspect-ratio: 1;
 
-  border: 0.0625rem solid rgba(46, 230, 214, 0.5);
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  background: radial-gradient(
+    circle,
+    rgba(46, 230, 214, 0.12),
+    rgba(52, 94, 170, 0.055) 42%,
+    transparent 72%
+  );
+
+  filter: blur(1.1rem);
+
+  transition:
+    opacity 450ms ease,
+    transform 450ms ease;
+}
+
+/* --------------------------------------------------
+   Interactive wrapper
+-------------------------------------------------- */
+
+.discover-orbit-control {
+  --orbit-light-x: 33%;
+  --orbit-light-y: 27%;
+
+  --orbit-ring-shift-x: 0px;
+  --orbit-ring-shift-y: 0px;
+
+  position: relative;
+  z-index: 1;
+
+  width: min(62vw, 16rem);
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border: 0;
+
+  appearance: none;
+
+  background: transparent;
+  color: inherit;
+
+  font: inherit;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+
+  touch-action: manipulation;
+}
+
+.discover-orbit-control:focus {
+  outline: none;
+}
+
+/* --------------------------------------------------
+   Object shell
+
+   The ring sits outside the sphere and therefore
+   must not be clipped by the sphere's circular mask.
+-------------------------------------------------- */
+
+.discover-orbit-shell {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+/* --------------------------------------------------
+   Main sphere
+
+   Important: the sphere itself never rotates or
+   scales. It stays perfectly circular at all times.
+-------------------------------------------------- */
+
+.discover-orbit-visual {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+  aspect-ratio: 1;
+
+  overflow: hidden;
+
+  border: 0.0625rem solid rgba(118, 244, 215, 0.72);
+
   border-radius: 50%;
 
   background:
     radial-gradient(
-      circle at 35% 30%,
-      rgba(255, 255, 255, 0.14),
-      transparent 24%
+      circle at var(--orbit-light-x) var(--orbit-light-y),
+      rgba(255, 255, 255, 0.2),
+      transparent 19%
     ),
     radial-gradient(
-      circle at 62% 58%,
-      rgba(46, 230, 214, 0.22),
-      transparent 28%
+      ellipse at 64% 59%,
+      rgba(46, 230, 214, 0.28),
+      transparent 25%
     ),
-    linear-gradient(145deg, #27466f, #17315a 55%, #10213b);
+    radial-gradient(
+      ellipse at 42% 68%,
+      rgba(68, 104, 190, 0.18),
+      transparent 37%
+    ),
+    linear-gradient(145deg, #2a4d7d 0%, #1a3763 42%, #102641 72%, #091726 100%);
 
   box-shadow:
-    inset -2rem -2rem 4rem rgba(0, 0, 0, 0.18),
-    0 2rem 5rem rgba(0, 0, 0, 0.22);
+    inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.035),
+    inset -2.75rem -3rem 5rem rgba(1, 7, 16, 0.42),
+    0 0 0 0.5rem rgba(46, 230, 214, 0.018),
+    0 0 5rem rgba(46, 230, 214, 0.085),
+    0 2.5rem 6rem rgba(0, 0, 0, 0.32);
+
+  transition:
+    --orbit-light-x 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    --orbit-light-y 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 400ms ease,
+    box-shadow 450ms ease;
 }
 
 /* --------------------------------------------------
-   Featured discoveries
+   Soft internal depth layer
 -------------------------------------------------- */
 
+.discover-orbit-visual::before {
+  content: "";
+
+  position: absolute;
+  inset: 6%;
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  background: linear-gradient(
+    112deg,
+    transparent 24%,
+    rgba(255, 255, 255, 0.035) 43%,
+    transparent 59%
+  );
+}
+
+/* --------------------------------------------------
+   Click-response surface sweep
+-------------------------------------------------- */
+
+.discover-orbit-visual::after {
+  content: "";
+
+  position: absolute;
+  inset: -18% -45%;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  background: linear-gradient(
+    104deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.08) 46%,
+    rgba(46, 230, 214, 0.07) 52%,
+    transparent 64%
+  );
+
+  transform: translateX(-135%);
+}
+
+/* --------------------------------------------------
+   Orbital ring
+-------------------------------------------------- */
+
+.discover-orbit-visual__ring {
+  position: absolute;
+
+  inset: -10%;
+
+  border: 1px solid rgba(118, 244, 215, 0.14);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  transform: translate3d(
+      var(--orbit-ring-shift-x),
+      var(--orbit-ring-shift-y),
+      0
+    )
+    rotate(-18deg) scaleY(0.36);
+
+  box-shadow: 0 0 2rem rgba(46, 230, 214, 0.035);
+
+  transition:
+    transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 400ms ease,
+    box-shadow 400ms ease;
+}
+
+/* --------------------------------------------------
+   Natural hover / pointer presence
+-------------------------------------------------- */
+
+@media (hover: hover) and (pointer: fine) {
+  .discover-orbit-control:hover .discover-orbit-visual {
+    border-color: rgba(118, 244, 215, 0.82);
+
+    box-shadow:
+      inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.038),
+      inset -2.75rem -3rem 5rem rgba(1, 7, 16, 0.42),
+      0 0 0 0.5rem rgba(46, 230, 214, 0.02),
+      0 0 5.25rem rgba(46, 230, 214, 0.105),
+      0 2.5rem 6rem rgba(0, 0, 0, 0.32);
+  }
+
+  .discover-orbit-control:hover .discover-orbit-visual__ring {
+    border-color: rgba(118, 244, 215, 0.18);
+  }
+}
+
+/* --------------------------------------------------
+   Keyboard focus
+-------------------------------------------------- */
+
+.discover-orbit-control:focus-visible .discover-orbit-visual {
+  border-color: var(--color-focus);
+
+  box-shadow:
+    0 0 0 0.2rem rgba(247, 209, 84, 0.14),
+    inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.04),
+    inset -2.75rem -3rem 5rem rgba(1, 7, 16, 0.42),
+    0 0 5.4rem rgba(46, 230, 214, 0.11),
+    0 2.5rem 6rem rgba(0, 0, 0, 0.32);
+}
+
+/* --------------------------------------------------
+   Single controlled activation response
+-------------------------------------------------- */
+
+.discover-orbit-control.is-orbit-responding .discover-orbit-visual {
+  animation: orbit-glow-response 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 1;
+}
+
+.discover-orbit-control.is-orbit-responding .discover-orbit-visual::after {
+  animation: orbit-surface-sweep 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 1;
+}
+
+.discover-orbit-control.is-orbit-responding .discover-orbit-visual__ring {
+  animation: orbit-ring-response 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 1;
+}
+
+/* --------------------------------------------------
+   Reduced-motion static activation response
+-------------------------------------------------- */
+
+.discover-orbit-control.is-orbit-reduced-response .discover-orbit-visual {
+  border-color: var(--color-focus);
+
+  box-shadow:
+    0 0 0 0.18rem rgba(247, 209, 84, 0.12),
+    inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.04),
+    inset -2.75rem -3rem 5rem rgba(1, 7, 16, 0.42),
+    0 0 5.4rem rgba(46, 230, 214, 0.12),
+    0 2.5rem 6rem rgba(0, 0, 0, 0.32);
+}
+
+/* ==================================================
+   FEATURED DISCOVERIES
+================================================== */
+
 .featured-section {
-  padding-block: var(--space-8) var(--space-24);
+  position: relative;
+  isolation: isolate;
+
+  padding-block: var(--space-10, 2.5rem) var(--space-24);
+}
+
+.featured-section::before {
+  content: "";
+
+  position: absolute;
+  inset: -6rem -4rem 0;
+
+  z-index: -2;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 12% 18%,
+      rgba(60, 92, 166, 0.045),
+      transparent 22rem
+    ),
+    radial-gradient(
+      circle at 88% 32%,
+      rgba(46, 230, 214, 0.04),
+      transparent 24rem
+    );
+}
+
+.featured-section::after {
+  content: "";
+
+  position: absolute;
+  inset: 0 -3rem;
+
+  z-index: -1;
+
+  pointer-events: none;
+
+  opacity: 0.24;
+
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.6) 0 0.045rem,
+      transparent 0.055rem
+    ),
+    radial-gradient(
+      circle,
+      rgba(118, 244, 215, 0.38) 0 0.035rem,
+      transparent 0.05rem
+    );
+
+  background-size:
+    13rem 13rem,
+    19rem 19rem;
+
+  background-position:
+    2rem 5rem,
+    9rem 1rem;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    rgba(0, 0, 0, 0.42) 62%,
+    transparent
+  );
+
+  animation:
+    orbit-star-drift-featured 150s linear infinite alternate,
+    orbit-star-shimmer-featured 34s ease-in-out infinite alternate;
+}
+
+.featured-section .section-heading {
+  margin-bottom: var(--space-7, 1.75rem);
+}
+
+.featured-section .section-heading__title {
+  letter-spacing: 0.12em;
+}
+
+.featured-section .section-heading__link {
+  display: inline-flex;
+  align-items: center;
+
+  gap: var(--space-2);
+
+  min-height: var(--control-min-height);
+
+  padding-inline: var(--space-3);
+
+  border-radius: var(--radius-sm);
+
+  text-decoration: none;
+
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.featured-section .section-heading__link:hover {
+  background: rgba(46, 230, 214, 0.07);
+
+  text-decoration: none;
+
+  transform: translateX(0.125rem);
 }
 
 .featured-grid {
   display: grid;
+
   gap: var(--space-6);
+}
+
+/* ==================================================
+   DISCOVER FEATURED CARD
+================================================== */
+
+.featured-discovery-card {
+  min-width: 0;
+
+  overflow: hidden;
+
+  border-color: rgba(181, 200, 222, 0.2);
+
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 42%),
+    var(--color-surface);
+
+  box-shadow:
+    0 1.25rem 3rem rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.018);
+
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.featured-discovery-card:hover {
+  border-color: rgba(118, 244, 215, 0.32);
+
+  box-shadow:
+    0 1.5rem 3.75rem rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(46, 230, 214, 0.035);
+
+  transform: translateY(-0.1875rem);
+}
+
+.featured-discovery-card__link {
+  display: flex;
+
+  flex: 1;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+
+  color: inherit;
+
+  text-decoration: none;
+}
+
+.featured-discovery-card__link:focus-visible {
+  outline: 0.125rem solid var(--color-focus);
+
+  outline-offset: -0.1875rem;
+
+  border-radius: var(--radius-md);
+}
+
+.featured-discovery-card:focus-within {
+  border-color: rgba(247, 209, 84, 0.64);
+
+  box-shadow:
+    0 0 0 0.125rem rgba(247, 209, 84, 0.12),
+    0 1.5rem 3.75rem rgba(0, 0, 0, 0.23);
+}
+
+.featured-discovery-card .media-card__media {
+  flex-shrink: 0;
+
+  background: #050b14;
+}
+
+.featured-discovery-card .media-card__image {
+  transform: scale(1.001);
+}
+
+.featured-discovery-card:hover .media-card__image {
+  transform: scale(1.035);
+}
+
+.featured-discovery-card__body {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: var(--space-5);
+}
+
+.featured-discovery-card .media-card__title {
+  letter-spacing: -0.01em;
+}
+
+.featured-discovery-card .media-card__source {
+  color: var(--color-text-secondary);
+}
+
+.featured-discovery-card__action {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-4);
+
+  margin-top: auto;
+
+  padding-top: var(--space-5);
+
+  border-top: 1px solid rgba(181, 200, 222, 0.09);
+
+  color: var(--color-aqua);
+
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.01em;
+}
+
+.featured-discovery-card__arrow {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 1.5rem;
+
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.featured-discovery-card:hover .featured-discovery-card__arrow {
+  transform: translateX(0.1875rem);
 }
 
 /* ==================================================
    EXPLORE
 ================================================== */
-
-/* --------------------------------------------------
-   Explore introduction
--------------------------------------------------- */
 
 .explore-hero {
   padding-block: var(--space-8) var(--space-10, 2.5rem);
@@ -123,6 +886,7 @@
   max-width: 13ch;
 
   font-size: clamp(2.75rem, 7vw, 4.5rem);
+
   line-height: 1;
   letter-spacing: -0.04em;
 }
@@ -166,6 +930,7 @@
   overflow: hidden;
 
   border: var(--border-width) solid var(--color-border);
+
   border-radius: var(--radius-md);
 
   background: var(--color-surface);
@@ -177,6 +942,7 @@
 
 .explore-search__control:focus-within {
   border-color: var(--color-focus);
+
   box-shadow: 0 0 0 0.125rem rgba(247, 209, 84, 0.18);
 }
 
@@ -192,6 +958,7 @@
   outline: 0;
 
   background: transparent;
+
   color: var(--color-text-primary);
 }
 
@@ -251,6 +1018,7 @@
 .topic-list {
   display: flex;
   flex-wrap: wrap;
+
   gap: var(--space-2);
 }
 
@@ -264,6 +1032,7 @@
   padding-inline: var(--space-4);
 
   border: var(--border-width) solid var(--color-border);
+
   border-radius: var(--radius-pill);
 
   background: var(--color-surface);
@@ -316,6 +1085,7 @@
   padding: var(--space-6);
 
   border: var(--border-width) solid var(--color-border);
+
   border-radius: var(--radius-lg);
 
   background:
@@ -336,6 +1106,7 @@
 
 .search-state__title {
   font-size: clamp(1.5rem, 4vw, 2rem);
+
   line-height: 1.2;
 }
 
@@ -375,6 +1146,7 @@
   display: flex;
   align-items: end;
   justify-content: space-between;
+
   gap: var(--space-4);
 
   margin-bottom: var(--space-6);
@@ -393,6 +1165,7 @@
 
 .results-header__title {
   font-size: clamp(1.5rem, 4vw, 2rem);
+
   line-height: 1.2;
 }
 
@@ -402,12 +1175,9 @@
   font-size: 0.875rem;
 }
 
-/* --------------------------------------------------
-   Dynamic NASA results grid
--------------------------------------------------- */
-
 .results-grid {
   display: grid;
+
   gap: var(--space-6);
 }
 
@@ -425,10 +1195,6 @@
   display: none !important;
 }
 
-/* --------------------------------------------------
-   Details navigation
--------------------------------------------------- */
-
 .details-panel__navigation {
   margin-bottom: var(--space-6);
 }
@@ -439,6 +1205,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   gap: var(--space-2);
 
   padding-inline: 0;
@@ -468,12 +1235,9 @@
   transform: translateX(0);
 }
 
-/* --------------------------------------------------
-   Details layout
--------------------------------------------------- */
-
 .details-panel__layout {
   display: grid;
+
   gap: var(--space-8);
 
   align-items: start;
@@ -484,14 +1248,11 @@
   min-width: 0;
 }
 
-/* --------------------------------------------------
-   Details image
--------------------------------------------------- */
-
 .details-panel__media {
   overflow: hidden;
 
   border: var(--border-width) solid var(--color-border);
+
   border-radius: var(--radius-lg);
 
   background: var(--color-surface-raised);
@@ -504,6 +1265,7 @@
 
   width: 100%;
   height: auto;
+
   aspect-ratio: 4 / 3;
 
   object-fit: contain;
@@ -530,10 +1292,6 @@
   text-align: center;
 }
 
-/* --------------------------------------------------
-   Details content
--------------------------------------------------- */
-
 .details-panel__content {
   max-width: 48rem;
 }
@@ -553,15 +1311,12 @@
   max-width: 22ch;
 
   font-size: clamp(2rem, 6vw, 3.5rem);
+
   line-height: 1.05;
   letter-spacing: -0.035em;
 
   overflow-wrap: anywhere;
 }
-
-/* --------------------------------------------------
-   Details metadata
--------------------------------------------------- */
 
 .details-panel__metadata {
   display: grid;
@@ -570,11 +1325,13 @@
   margin-top: var(--space-8);
 
   border-top: var(--border-width) solid var(--color-border);
+
   border-bottom: var(--border-width) solid var(--color-border);
 }
 
 .details-panel__metadata-item {
   display: grid;
+
   gap: var(--space-1);
 
   padding-block: var(--space-4);
@@ -604,10 +1361,6 @@
   overflow-wrap: anywhere;
 }
 
-/* --------------------------------------------------
-   Details text sections
--------------------------------------------------- */
-
 .details-panel__description,
 .details-panel__provenance {
   margin-top: var(--space-8);
@@ -631,27 +1384,11 @@
   overflow-wrap: anywhere;
 }
 
-/*
-  NASA descriptions can be long and may contain
-  meaningful paragraph / line breaks.
-
-  The JavaScript already converts NASA's HTML into
-  safe plain text. pre-line allows those safe newline
-  characters to remain readable without rendering
-  NASA-provided HTML.
-*/
-
 #details-description {
   max-width: 62ch;
 
   white-space: pre-line;
 }
-
-/*
-  Provenance is deliberately slightly narrower than
-  the full content column to keep the final section
-  easy to scan.
-*/
 
 .details-panel__provenance p {
   max-width: 62ch;
@@ -664,12 +1401,58 @@
 }
 
 /* ==================================================
+   REDUCED MOTION
+================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .discover-hero::before,
+  .featured-section::after {
+    animation: none;
+  }
+
+  .discover-orbit-visual,
+  .discover-orbit-visual::after,
+  .discover-orbit-visual__ring {
+    animation: none !important;
+    transition: none;
+  }
+
+  .discover-orbit-control {
+    --orbit-light-x: 33% !important;
+    --orbit-light-y: 27% !important;
+    --orbit-ring-shift-x: 0px !important;
+    --orbit-ring-shift-y: 0px !important;
+  }
+
+  .featured-discovery-card,
+  .featured-discovery-card__arrow,
+  .featured-discovery-card .media-card__image,
+  .featured-section .section-heading__link {
+    transition-duration: 0.01ms;
+  }
+
+  .featured-discovery-card:hover {
+    transform: none;
+  }
+
+  .featured-discovery-card:hover .media-card__image {
+    transform: scale(1.001);
+  }
+
+  .featured-discovery-card:hover .featured-discovery-card__arrow {
+    transform: none;
+  }
+
+  .featured-section .section-heading__link:hover {
+    transform: none;
+  }
+}
+
+/* ==================================================
    TABLET
 ================================================== */
 
 @media (min-width: 48rem) {
-  /* Discover */
-
   .discover-hero {
     padding-block: var(--space-16) var(--space-24);
   }
@@ -686,15 +1469,13 @@
     min-height: 26rem;
   }
 
-  .discover-orbit-visual {
+  .discover-orbit-control {
     width: min(32vw, 25rem);
   }
 
   .featured-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  /* Explore */
 
   .explore-hero {
     padding-block: var(--space-12) var(--space-10, 2.5rem);
@@ -703,8 +1484,6 @@
   .results-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  /* Details */
 
   .details-panel {
     padding-block: var(--space-10, 2.5rem) var(--space-24);
@@ -724,8 +1503,6 @@
 ================================================== */
 
 @media (min-width: 75rem) {
-  /* Discover */
-
   .discover-hero__layout {
     grid-template-columns:
       minmax(0, 1.2fr)
@@ -742,8 +1519,6 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  /* Explore */
-
   .explore-hero {
     padding-block: var(--space-16) var(--space-12);
   }
@@ -751,8 +1526,6 @@
   .results-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-
-  /* Details */
 
   .details-panel__layout {
     grid-template-columns:

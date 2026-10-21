@@ -1,4 +1,5 @@
 import { SEARCH_MODES, searchNasaImages } from "./api.js";
+import { isItemSaved, toggleSavedItem } from "./storage.js";
 
 /* --------------------------------------------------
    ORBIT Explore
@@ -2308,6 +2309,152 @@ function getResultDescription(result) {
   return cleaned || "No description is available for this NASA image.";
 }
 
+/* --------------------------------------------------
+   Milestone 9.13
+   Explore Saved helpers
+-------------------------------------------------- */
+
+function createSavedRecordFromResult(result) {
+  const nasaId = typeof result?.nasaId === "string" ? result.nasaId.trim() : "";
+
+  const center =
+    typeof result?.center === "string" && result.center.trim()
+      ? result.center.trim()
+      : "NASA";
+
+  const dateCreated =
+    typeof result?.dateCreated === "string"
+      ? result.dateCreated.trim()
+      : typeof result?.date_created === "string"
+        ? result.date_created.trim()
+        : typeof result?.date === "string"
+          ? result.date.trim()
+          : "";
+
+  const keywords = Array.isArray(result?.keywords)
+    ? result.keywords
+        .filter((keyword) => {
+          return typeof keyword === "string" && keyword.trim();
+        })
+        .map((keyword) => {
+          return keyword.trim();
+        })
+    : [];
+
+  return {
+    nasaId,
+
+    title: getResultTitle(result),
+
+    imageUrl: getSafeRemoteUrl(result?.imageUrl) ?? "",
+
+    center,
+
+    dateCreated,
+
+    /*
+      Store the same safe plain-text description that
+      Explore Details already displays.
+    */
+
+    description: getResultDescription(result),
+
+    keywords,
+  };
+}
+
+/* --------------------------------------------------
+   Milestone 9.13
+   Save button state
+-------------------------------------------------- */
+
+function setSaveButtonState(button, nasaId, title) {
+  const saved = isItemSaved(nasaId);
+
+  button.textContent = saved ? "Saved" : "Save";
+
+  button.setAttribute("aria-pressed", String(saved));
+
+  button.setAttribute(
+    "aria-label",
+    saved
+      ? `Remove ${title} from saved images`
+      : `Save ${title} to saved images`,
+  );
+}
+
+/* --------------------------------------------------
+   Milestone 9.13
+   Refresh visible Save buttons
+-------------------------------------------------- */
+
+function refreshSaveButtonStates(targetNasaId = "") {
+  const target =
+    typeof targetNasaId === "string" ? targetNasaId.trim().toLowerCase() : "";
+
+  const buttons = resultsContainer.querySelectorAll(
+    ".media-card__save[data-nasa-id]",
+  );
+
+  buttons.forEach((button) => {
+    const nasaId = button.dataset.nasaId ?? "";
+
+    if (target && nasaId.trim().toLowerCase() !== target) {
+      return;
+    }
+
+    const title = button.dataset.title || "NASA image";
+
+    setSaveButtonState(button, nasaId, title);
+  });
+}
+
+/* --------------------------------------------------
+   Milestone 9.13
+   Toggle Save / Saved
+-------------------------------------------------- */
+
+function handleSaveToggle(result, button) {
+  const record = createSavedRecordFromResult(result);
+
+  if (!record.nasaId) {
+    setGuidance(
+      "This NASA image cannot be saved because its NASA ID is unavailable.",
+      true,
+    );
+
+    return;
+  }
+
+  const outcome = toggleSavedItem(record);
+
+  if (!outcome?.ok) {
+    setGuidance(
+      "This image could not be saved on this device. You can keep browsing ORBIT.",
+      true,
+    );
+
+    refreshSaveButtonStates(record.nasaId);
+
+    return;
+  }
+
+  /*
+    Read the authoritative state back from storage.
+
+    This keeps every visible instance of the same NASA
+    record accurate without changing search or curation.
+  */
+
+  refreshSaveButtonStates(record.nasaId);
+
+  /*
+    Keep keyboard focus on the control the user used.
+  */
+
+  focusWithoutScroll(button);
+}
+
 function formatNasaDate(value) {
   if (typeof value !== "string" || !value.trim()) {
     return "Not available";
@@ -2565,9 +2712,9 @@ function closeDetails() {
       }
 
       /*
-            Safe fallback if the original card was ever
-            removed before Details closes.
-          */
+        Safe fallback if the original card was ever
+        removed before Details closes.
+      */
 
       focusWithoutScroll(searchInput);
     });
@@ -2873,7 +3020,9 @@ function createResultCard(result) {
 
   article.className = "media-card";
 
-  article.dataset.nasaId = result.nasaId ?? "";
+  const nasaId = typeof result?.nasaId === "string" ? result.nasaId.trim() : "";
+
+  article.dataset.nasaId = nasaId;
 
   const fullTitle = getResultTitle(result);
 
@@ -2887,8 +3036,6 @@ function createResultCard(result) {
     const image = document.createElement("img");
 
     image.className = "media-card__image";
-
-    image.src = imageUrl;
 
     image.alt = fullTitle;
 
@@ -2907,6 +3054,18 @@ function createResultCard(result) {
         once: true,
       },
     );
+
+    /*
+      Milestone 9.13A
+
+      Set src only after the browser already knows the
+      image dimensions, loading mode, decoding mode and
+      error fallback. This keeps the card layout stable
+      and avoids Chromium/Brave lazy-image dimension
+      warnings.
+    */
+
+    image.src = imageUrl;
 
     media.append(image);
   } else {
@@ -2937,13 +3096,20 @@ function createResultCard(result) {
 
   source.className = "media-card__source";
 
-  source.textContent = result.center || "NASA";
+  source.textContent =
+    typeof result?.center === "string" && result.center.trim()
+      ? result.center.trim()
+      : "NASA";
 
   info.append(title, source);
 
   const actions = document.createElement("div");
 
   actions.className = "media-card__actions";
+
+  /* ------------------------------
+     Details
+  ------------------------------ */
 
   const detailsLink = document.createElement("a");
 
@@ -2975,6 +3141,31 @@ function createResultCard(result) {
   });
 
   actions.append(detailsLink);
+
+  /* ------------------------------
+     Milestone 9.13
+     Save / Saved
+  ------------------------------ */
+
+  if (nasaId) {
+    const saveButton = document.createElement("button");
+
+    saveButton.type = "button";
+
+    saveButton.className = "media-card__save";
+
+    saveButton.dataset.nasaId = nasaId;
+
+    saveButton.dataset.title = fullTitle;
+
+    setSaveButtonState(saveButton, nasaId, fullTitle);
+
+    saveButton.addEventListener("click", () => {
+      handleSaveToggle(result, saveButton);
+    });
+
+    actions.append(saveButton);
+  }
 
   body.append(info, actions);
 
@@ -3354,6 +3545,24 @@ function getQueryFromUrl() {
 
   return normaliseQuery(params.get("q") ?? "");
 }
+
+/* --------------------------------------------------
+   Milestone 9.13
+   Saved storage synchronisation
+
+   The browser fires the storage event when another
+   tab changes ORBIT's device-local Saved collection.
+
+   Only Save/Saved button state is refreshed here.
+   NASA search, curation, ranking, image preflight,
+   URL state and Details remain untouched.
+-------------------------------------------------- */
+
+window.addEventListener("storage", (event) => {
+  if (event.key === "orbit:saved:v1") {
+    refreshSaveButtonStates();
+  }
+});
 
 /* --------------------------------------------------
    Events

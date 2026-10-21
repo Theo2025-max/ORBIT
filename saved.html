@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="css/components.css" />
     <link rel="stylesheet" href="css/pages.css" />
     <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/saved.css" />
   </head>
 
   <body>
@@ -31,11 +32,11 @@
 
           <ul class="site-nav__list" role="list">
             <li>
-              <a class="site-nav__link" href="index.html"> Discover </a>
+              <a class="site-nav__link" href="index.html">Discover</a>
             </li>
 
             <li>
-              <a class="site-nav__link" href="explore.html"> Explore </a>
+              <a class="site-nav__link" href="explore.html">Explore</a>
             </li>
 
             <li>
@@ -48,10 +49,217 @@
       </div>
     </header>
 
-    <main id="main-content" class="page-main" tabindex="-1">
-      <div class="container">
-        <h1>Saved</h1>
-        <p>Your saved NASA images will appear here.</p>
+    <main id="main-content" class="page-main saved-page" tabindex="-1">
+      <div class="container saved-page__content">
+        <!-- ==================================================
+             SAVED INTRODUCTION
+        =================================================== -->
+
+        <section
+          id="saved-intro"
+          class="saved-intro"
+          aria-labelledby="saved-heading"
+        >
+          <p class="saved-intro__eyebrow">Your collection</p>
+
+          <h1 id="saved-heading" class="saved-intro__title">
+            Saved discoveries.
+          </h1>
+
+          <p class="saved-intro__description">
+            Keep the NASA images that made you stop and look.
+          </p>
+
+          <p id="saved-count" class="saved-count" hidden></p>
+
+          <p class="saved-intro__persistence">
+            <span class="saved-intro__info-icon" aria-hidden="true">i</span>
+            <span
+              >Saved locally in this browser/device · No account required</span
+            >
+          </p>
+        </section>
+
+        <!-- ==================================================
+             ACCESSIBLE STATUS
+        =================================================== -->
+
+        <div
+          id="saved-status"
+          class="saved-status visually-hidden"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        ></div>
+
+        <!-- ==================================================
+             EMPTY STATE
+        =================================================== -->
+
+        <section
+          id="saved-empty-state"
+          class="saved-empty-state"
+          aria-labelledby="saved-empty-heading"
+        >
+          <div class="saved-empty-state__visual" aria-hidden="true">
+            <span class="saved-empty-state__orbit"></span>
+            <span class="saved-empty-state__bookmark"></span>
+          </div>
+
+          <div class="saved-empty-state__content">
+            <h2 id="saved-empty-heading" class="saved-empty-state__title">
+              Nothing saved yet.
+            </h2>
+
+            <p class="saved-empty-state__message">
+              Save an image from Explore and it will appear here.
+            </p>
+
+            <a class="button button--primary" href="explore.html">
+              Explore images
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- ==================================================
+             SAVED RESULTS
+        =================================================== -->
+
+        <section
+          id="saved-results-section"
+          class="saved-results"
+          aria-labelledby="saved-results-heading"
+          hidden
+        >
+          <h2 id="saved-results-heading" class="visually-hidden">
+            Saved images
+          </h2>
+
+          <div id="saved-grid" class="saved-grid"></div>
+        </section>
+
+        <!-- ==================================================
+             SAVED DETAILS
+        =================================================== -->
+
+        <section
+          id="saved-details-panel"
+          class="details-panel saved-details-panel"
+          aria-labelledby="saved-details-title"
+          tabindex="-1"
+          hidden
+        >
+          <div class="details-panel__navigation">
+            <button
+              id="saved-details-back-button"
+              class="details-panel__back"
+              type="button"
+            >
+              ← Back to saved
+            </button>
+          </div>
+
+          <div class="details-panel__layout">
+            <div class="details-panel__media">
+              <img
+                id="saved-details-image"
+                class="details-panel__image"
+                src=""
+                alt=""
+                hidden
+              />
+
+              <div
+                id="saved-details-image-fallback"
+                class="details-panel__image-fallback"
+                role="img"
+                aria-label="Image unavailable"
+                hidden
+              >
+                Image unavailable
+              </div>
+            </div>
+
+            <article class="details-panel__content">
+              <p class="details-panel__eyebrow">Saved NASA image</p>
+
+              <h2 id="saved-details-title" class="details-panel__title">
+                NASA image details
+              </h2>
+
+              <dl class="details-panel__metadata">
+                <div class="details-panel__metadata-item">
+                  <dt>Source</dt>
+                  <dd id="saved-details-source">NASA</dd>
+                </div>
+
+                <div class="details-panel__metadata-item">
+                  <dt>Date</dt>
+                  <dd id="saved-details-date">Not available</dd>
+                </div>
+
+                <div class="details-panel__metadata-item">
+                  <dt>NASA ID</dt>
+                  <dd id="saved-details-nasa-id">Not available</dd>
+                </div>
+              </dl>
+
+              <section
+                class="details-panel__description"
+                aria-labelledby="saved-description-heading"
+              >
+                <h3
+                  id="saved-description-heading"
+                  class="details-panel__section-title"
+                >
+                  Description
+                </h3>
+
+                <p id="saved-details-description">
+                  No description is available for this image.
+                </p>
+              </section>
+
+              <section
+                class="details-panel__provenance"
+                aria-labelledby="saved-source-heading"
+              >
+                <h3
+                  id="saved-source-heading"
+                  class="details-panel__section-title"
+                >
+                  Source
+                </h3>
+
+                <p>
+                  View the original image record in NASA's Image and Video
+                  Library.
+                </p>
+
+                <div class="saved-details__actions">
+                  <a
+                    id="saved-details-source-link"
+                    class="button button--primary"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View NASA source
+                  </a>
+
+                  <button
+                    id="saved-details-remove-button"
+                    class="saved-details__remove"
+                    type="button"
+                  >
+                    Remove from saved
+                  </button>
+                </div>
+              </section>
+            </article>
+          </div>
+        </section>
       </div>
     </main>
 

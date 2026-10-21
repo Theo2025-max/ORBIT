@@ -49,6 +49,10 @@
     </header>
 
     <main id="main-content" class="page-main" tabindex="-1">
+      <!-- ==================================================
+           DISCOVER HERO
+      =================================================== -->
+
       <section class="discover-hero">
         <div class="container discover-hero__layout">
           <div class="discover-hero__content">
@@ -63,45 +67,48 @@
               Explore real space imagery and discover the stories behind it.
             </p>
 
-            <form
-              class="hero-search"
-              action="explore.html"
-              method="get"
-              role="search"
-            >
-              <label class="visually-hidden" for="discover-search">
-                Search NASA images
-              </label>
-
-              <input
-                id="discover-search"
-                class="hero-search__input"
-                name="q"
-                type="search"
-                placeholder="Search for space images..."
-                autocomplete="off"
-              />
-
-              <button
-                class="hero-search__button"
-                type="submit"
-                aria-label="Search NASA images"
-              >
-                Search
-              </button>
-            </form>
-
             <a class="button button--primary" href="explore.html">
               Start exploring
               <span aria-hidden="true">→</span>
             </a>
           </div>
 
-          <div class="discover-hero__visual" aria-hidden="true">
-            <div class="discover-orbit-visual"></div>
+          <!-- ==================================================
+               QUIET INTERACTIVE ORBIT OBJECT
+
+               Pointer movement shifts internal lighting and the
+               orbital ring only very slightly.
+
+               Click / Enter / Space runs one restrained response
+               and returns fully to the canonical resting state.
+
+               The sphere itself never tilts or accumulates rotation.
+          =================================================== -->
+
+          <div class="discover-hero__visual">
+            <button
+              id="discover-orbit-control"
+              class="discover-orbit-control"
+              type="button"
+              aria-label="Interact with the ORBIT object"
+              aria-describedby="discover-orbit-description"
+            >
+              <span class="discover-orbit-shell" aria-hidden="true">
+                <span class="discover-orbit-visual"></span>
+                <span class="discover-orbit-visual__ring"></span>
+              </span>
+            </button>
+
+            <p id="discover-orbit-description" class="visually-hidden">
+              Press Enter or Space for a subtle visual response.
+            </p>
           </div>
         </div>
       </section>
+
+      <!-- ==================================================
+           FEATURED DISCOVERIES
+      =================================================== -->
 
       <section class="featured-section" aria-labelledby="featured-title">
         <div class="container">
@@ -111,115 +118,115 @@
             </h2>
 
             <a class="section-heading__link" href="explore.html">
-              See more
+              Explore all imagery
               <span aria-hidden="true">→</span>
             </a>
           </div>
 
           <div class="featured-grid">
-            <article class="media-card">
-              <div class="media-card__media">
-                <img
-                  class="media-card__image"
-                  src="assets/images/pillars-of-creation.png"
-                  alt="The Pillars of Creation, towering clouds of gas and dust photographed by the James Webb Space Telescope."
-                  width="1155"
-                  height="2000"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-
-              <div class="media-card__body">
-                <div>
-                  <h3 class="media-card__title">Pillars of Creation</h3>
-                  <p class="media-card__source">NASA / Webb</p>
+            <article class="media-card featured-discovery-card">
+              <a
+                class="featured-discovery-card__link"
+                href="explore.html?q=Pillars%20of%20Creation"
+              >
+                <div class="media-card__media">
+                  <img
+                    class="media-card__image"
+                    src="assets/images/pillars-of-creation.png"
+                    alt="The Pillars of Creation, towering clouds of gas and dust photographed by the James Webb Space Telescope."
+                    width="1155"
+                    height="2000"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
 
-                <div class="media-card__actions">
-                  <a class="media-card__details" href="explore.html">
-                    Details
-                  </a>
+                <div class="media-card__body featured-discovery-card__body">
+                  <div>
+                    <h3 class="media-card__title">Pillars of Creation</h3>
 
-                  <button
-                    class="media-card__save"
-                    type="button"
-                    aria-label="Save Pillars of Creation"
+                    <p class="media-card__source">NASA / Webb</p>
+                  </div>
+
+                  <div
+                    class="featured-discovery-card__action"
+                    aria-hidden="true"
                   >
-                    Save
-                  </button>
+                    <span>Explore discovery</span>
+                    <span class="featured-discovery-card__arrow">→</span>
+                  </div>
                 </div>
-              </div>
+              </a>
             </article>
 
-            <article class="media-card">
-              <div class="media-card__media">
-                <img
-                  class="media-card__image"
-                  src="assets/images/spiral-galaxy-m101.jpg"
-                  alt="Spiral Galaxy M101 showing its bright centre and sweeping spiral arms."
-                  width="1280"
-                  height="1280"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-
-              <div class="media-card__body">
-                <div>
-                  <h3 class="media-card__title">Spiral Galaxy M101</h3>
-                  <p class="media-card__source">NASA / Hubble</p>
+            <article class="media-card featured-discovery-card">
+              <a
+                class="featured-discovery-card__link"
+                href="explore.html?q=Spiral%20Galaxy%20M101"
+              >
+                <div class="media-card__media">
+                  <img
+                    class="media-card__image"
+                    src="assets/images/spiral-galaxy-m101.jpg"
+                    alt="Spiral Galaxy M101 showing its bright centre and sweeping spiral arms."
+                    width="1280"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
 
-                <div class="media-card__actions">
-                  <a class="media-card__details" href="explore.html">
-                    Details
-                  </a>
+                <div class="media-card__body featured-discovery-card__body">
+                  <div>
+                    <h3 class="media-card__title">Spiral Galaxy M101</h3>
 
-                  <button
-                    class="media-card__save"
-                    type="button"
-                    aria-label="Save Spiral Galaxy M101"
+                    <p class="media-card__source">NASA / Hubble</p>
+                  </div>
+
+                  <div
+                    class="featured-discovery-card__action"
+                    aria-hidden="true"
                   >
-                    Save
-                  </button>
+                    <span>Explore discovery</span>
+                    <span class="featured-discovery-card__arrow">→</span>
+                  </div>
                 </div>
-              </div>
+              </a>
             </article>
 
-            <article class="media-card">
-              <div class="media-card__media">
-                <img
-                  class="media-card__image"
-                  src="assets/images/earth-blue-marble.jpg"
-                  alt="NASA Blue Marble view of Earth from space showing oceans, land and cloud systems."
-                  width="1900"
-                  height="1200"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-
-              <div class="media-card__body">
-                <div>
-                  <h3 class="media-card__title">Earth from Space</h3>
-                  <p class="media-card__source">NASA</p>
+            <article class="media-card featured-discovery-card">
+              <a
+                class="featured-discovery-card__link"
+                href="explore.html?q=Earth%20from%20Space"
+              >
+                <div class="media-card__media">
+                  <img
+                    class="media-card__image"
+                    src="assets/images/earth-blue-marble.jpg"
+                    alt="NASA Blue Marble view of Earth from space showing oceans, land and cloud systems."
+                    width="1900"
+                    height="1200"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
 
-                <div class="media-card__actions">
-                  <a class="media-card__details" href="explore.html">
-                    Details
-                  </a>
+                <div class="media-card__body featured-discovery-card__body">
+                  <div>
+                    <h3 class="media-card__title">Earth from Space</h3>
 
-                  <button
-                    class="media-card__save"
-                    type="button"
-                    aria-label="Save Earth from Space"
+                    <p class="media-card__source">NASA</p>
+                  </div>
+
+                  <div
+                    class="featured-discovery-card__action"
+                    aria-hidden="true"
                   >
-                    Save
-                  </button>
+                    <span>Explore discovery</span>
+                    <span class="featured-discovery-card__arrow">→</span>
+                  </div>
                 </div>
-              </div>
+              </a>
             </article>
           </div>
         </div>

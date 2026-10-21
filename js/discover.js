@@ -1,190 +1,223 @@
 /* --------------------------------------------------
    ORBIT Discover page
 
-   Handles the Discover hero search.
+   D3.1 — Quiet ORBIT Interaction
 
-   Behaviour:
-   - Blank search stays on Discover.
-   - Blank search shows clear guidance.
-   - Valid search opens Explore with ?q=
-   - Start Exploring remains separate and unchanged.
+   Discover remains presentation-led.
+   Search, Details and Save/Saved belong to Explore.
+
+   The signature ORBIT object is intentionally calm:
+
+   - the sphere itself never tilts or accumulates rotation
+   - pointer movement shifts only internal light slightly
+   - the orbital ring moves by only a few pixels
+   - click / Enter / Space runs one short visual response
+   - every response returns completely to the resting state
+   - prefers-reduced-motion receives static feedback only
 -------------------------------------------------- */
 
-/* --------------------------------------------------
-   DOM references
--------------------------------------------------- */
+const orbitControl = document.querySelector("#discover-orbit-control");
 
-const searchForm = document.querySelector(".hero-search");
-const searchInput = document.querySelector("#discover-search");
-
-/* --------------------------------------------------
-   Guard
-
-   If this script is accidentally loaded on another
-   page, do nothing instead of causing an error.
--------------------------------------------------- */
-
-if (searchForm && searchInput) {
-  initialiseDiscoverSearch();
+if (orbitControl) {
+  initialiseOrbitObject(orbitControl);
 }
 
 /* --------------------------------------------------
-   Initialise
+   Initialise quiet ORBIT interaction
 -------------------------------------------------- */
 
-function initialiseDiscoverSearch() {
-  const message = createSearchMessage();
+function initialiseOrbitObject(control) {
+  const reducedMotionQuery = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  );
 
-  searchForm.addEventListener("submit", (event) => {
-    handleSearchSubmit(event, message);
+  const state = {
+    pointerFrame: null,
+    responseTimeout: null,
+    reducedResponseTimeout: null,
+  };
+
+  control.addEventListener("pointermove", (event) => {
+    if (reducedMotionQuery.matches || event.pointerType === "touch") {
+      return;
+    }
+
+    schedulePointerResponse(control, event, state);
   });
 
-  searchInput.addEventListener("input", () => {
-    handleSearchInput(message);
+  control.addEventListener("pointerleave", () => {
+    resetPointerResponse(control, state);
+  });
+
+  /*
+    A native button already maps Enter and Space to click,
+    so pointer and keyboard users receive the same response.
+  */
+
+  control.addEventListener("click", () => {
+    resetPointerResponse(control, state);
+
+    if (reducedMotionQuery.matches) {
+      showReducedMotionResponse(control, state);
+      return;
+    }
+
+    playOrbitResponse(control, state);
+  });
+
+  reducedMotionQuery.addEventListener("change", (event) => {
+    resetPointerResponse(control, state);
+
+    control.classList.remove(
+      "is-orbit-responding",
+      "is-orbit-reduced-response",
+    );
+
+    if (event.matches) {
+      clearResponseTimers(state);
+    }
   });
 }
 
 /* --------------------------------------------------
-   Create inline search message
-
-   We create this with JavaScript so you do not need
-   to modify index.html.
-
-   The message is placed directly below the search
-   form and is announced to screen readers.
+   Subtle pointer lighting
 -------------------------------------------------- */
 
-function createSearchMessage() {
-  const existingMessage = document.querySelector("#discover-search-message");
+function schedulePointerResponse(control, event, state) {
+  const clientX = event.clientX;
+  const clientY = event.clientY;
 
-  if (existingMessage) {
-    return existingMessage;
+  if (state.pointerFrame !== null) {
+    window.cancelAnimationFrame(state.pointerFrame);
   }
 
-  const message = document.createElement("p");
+  state.pointerFrame = window.requestAnimationFrame(() => {
+    state.pointerFrame = null;
 
-  message.id = "discover-search-message";
-  message.className = "hero-search__message";
+    const rect = control.getBoundingClientRect();
 
-  message.hidden = true;
+    if (!rect.width || !rect.height) {
+      return;
+    }
 
-  message.setAttribute("role", "status");
-  message.setAttribute("aria-live", "polite");
+    const normalisedX = ((clientX - rect.left) / rect.width - 0.5) * 2;
 
-  searchForm.insertAdjacentElement("afterend", message);
+    const normalisedY = ((clientY - rect.top) / rect.height - 0.5) * 2;
 
-  searchInput.setAttribute("aria-describedby", "discover-search-message");
+    /*
+      The highlight moves only a few percentage points.
+      The sphere silhouette never changes.
+    */
 
-  return message;
+    const lightX = clamp(33 + normalisedX * 4.5, 28.5, 37.5);
+    const lightY = clamp(27 + normalisedY * 4, 23, 31);
+
+    /*
+      The ring shifts by at most two pixels to suggest
+      separation from the sphere without looking animated.
+    */
+
+    const ringShiftX = clamp(normalisedX * 2, -2, 2);
+    const ringShiftY = clamp(normalisedY * 1.5, -1.5, 1.5);
+
+    control.style.setProperty("--orbit-light-x", `${lightX.toFixed(2)}%`);
+
+    control.style.setProperty("--orbit-light-y", `${lightY.toFixed(2)}%`);
+
+    control.style.setProperty(
+      "--orbit-ring-shift-x",
+      `${ringShiftX.toFixed(2)}px`,
+    );
+
+    control.style.setProperty(
+      "--orbit-ring-shift-y",
+      `${ringShiftY.toFixed(2)}px`,
+    );
+  });
 }
 
 /* --------------------------------------------------
-   Query cleaning
+   Return fully to canonical resting state
 -------------------------------------------------- */
 
-function normaliseQuery(value) {
-  if (typeof value !== "string") {
-    return "";
+function resetPointerResponse(control, state) {
+  if (state.pointerFrame !== null) {
+    window.cancelAnimationFrame(state.pointerFrame);
+    state.pointerFrame = null;
   }
 
-  return value.trim().replace(/\s+/g, " ");
+  control.style.setProperty("--orbit-light-x", "33%");
+  control.style.setProperty("--orbit-light-y", "27%");
+  control.style.setProperty("--orbit-ring-shift-x", "0px");
+  control.style.setProperty("--orbit-ring-shift-y", "0px");
 }
 
 /* --------------------------------------------------
-   Search submission
+   Click / keyboard response
+
+   No value accumulates between activations.
+   Every activation restarts the same short response.
 -------------------------------------------------- */
 
-function handleSearchSubmit(event, message) {
-  event.preventDefault();
+function playOrbitResponse(control, state) {
+  control.classList.remove("is-orbit-responding");
 
-  const query = normaliseQuery(searchInput.value);
+  /*
+    Force style recalculation so rapid repeated activation
+    restarts the same controlled response from the beginning.
+  */
 
-  /* ----------------------------------------------
-     Blank search
+  void control.offsetWidth;
 
-     Important:
-     Do NOT send the user to Explore.
+  control.classList.add("is-orbit-responding");
 
-     Keep them on Discover and explain what they
-     need to do.
-  ---------------------------------------------- */
-
-  if (!query) {
-    showSearchError(message, "Enter a keyword before searching.");
-
-    searchInput.focus();
-
-    return;
+  if (state.responseTimeout !== null) {
+    window.clearTimeout(state.responseTimeout);
   }
 
-  /* ----------------------------------------------
-     Valid search
-
-     Clear any previous error first.
-  ---------------------------------------------- */
-
-  clearSearchError(message);
-
-  searchInput.value = query;
-
-  /* ----------------------------------------------
-     Build Explore URL safely
-
-     Examples:
-
-     Mars
-     -> explore.html?q=Mars
-
-     Great Red Spot
-     -> explore.html?q=Great+Red+Spot
-  ---------------------------------------------- */
-
-  const params = new URLSearchParams();
-
-  params.set("q", query);
-
-  window.location.href = `explore.html?${params.toString()}`;
+  state.responseTimeout = window.setTimeout(() => {
+    control.classList.remove("is-orbit-responding");
+    state.responseTimeout = null;
+  }, 950);
 }
 
 /* --------------------------------------------------
-   Input editing
-
-   Once the user starts typing after a blank-search
-   error, remove the error state.
+   Reduced-motion response
 -------------------------------------------------- */
 
-function handleSearchInput(message) {
-  const query = normaliseQuery(searchInput.value);
+function showReducedMotionResponse(control, state) {
+  control.classList.remove("is-orbit-reduced-response");
 
-  if (query) {
-    clearSearchError(message);
+  void control.offsetWidth;
+
+  control.classList.add("is-orbit-reduced-response");
+
+  if (state.reducedResponseTimeout !== null) {
+    window.clearTimeout(state.reducedResponseTimeout);
+  }
+
+  state.reducedResponseTimeout = window.setTimeout(() => {
+    control.classList.remove("is-orbit-reduced-response");
+    state.reducedResponseTimeout = null;
+  }, 450);
+}
+
+/* --------------------------------------------------
+   Cleanup helpers
+-------------------------------------------------- */
+
+function clearResponseTimers(state) {
+  if (state.responseTimeout !== null) {
+    window.clearTimeout(state.responseTimeout);
+    state.responseTimeout = null;
+  }
+
+  if (state.reducedResponseTimeout !== null) {
+    window.clearTimeout(state.reducedResponseTimeout);
+    state.reducedResponseTimeout = null;
   }
 }
 
-/* --------------------------------------------------
-   Error state
--------------------------------------------------- */
-
-function showSearchError(message, text) {
-  message.textContent = text;
-
-  message.hidden = false;
-
-  message.dataset.state = "error";
-
-  searchInput.setAttribute("aria-invalid", "true");
-}
-
-/* --------------------------------------------------
-   Clear error state
--------------------------------------------------- */
-
-function clearSearchError(message) {
-  message.textContent = "";
-
-  message.hidden = true;
-
-  delete message.dataset.state;
-
-  searchInput.removeAttribute("aria-invalid");
+function clamp(value, minimum, maximum) {
+  return Math.min(Math.max(value, minimum), maximum);
 }
