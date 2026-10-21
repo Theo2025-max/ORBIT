@@ -56,76 +56,6 @@
   }
 }
 
-/* --------------------------------------------------
-   Quiet ORBIT response
--------------------------------------------------- */
-
-@keyframes orbit-surface-sweep {
-  0% {
-    transform: translateX(-135%);
-    opacity: 0;
-  }
-
-  18% {
-    opacity: 0.18;
-  }
-
-  55% {
-    opacity: 0.1;
-  }
-
-  100% {
-    transform: translateX(135%);
-    opacity: 0;
-  }
-}
-
-@keyframes orbit-ring-response {
-  0%,
-  100% {
-    transform: translate3d(
-        var(--orbit-ring-shift-x),
-        var(--orbit-ring-shift-y),
-        0
-      )
-      rotate(-18deg) scaleY(0.36);
-  }
-
-  45% {
-    transform: translate3d(
-        var(--orbit-ring-shift-x),
-        var(--orbit-ring-shift-y),
-        0
-      )
-      rotate(-8deg) scaleY(0.36);
-  }
-}
-
-@keyframes orbit-glow-response {
-  0%,
-  100% {
-    border-color: rgba(118, 244, 215, 0.72);
-
-    box-shadow:
-      inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.035),
-      inset -2.75rem -3rem 5rem rgba(1, 7, 16, 0.42),
-      0 0 0 0.5rem rgba(46, 230, 214, 0.018),
-      0 0 5rem rgba(46, 230, 214, 0.085),
-      0 2.5rem 6rem rgba(0, 0, 0, 0.32);
-  }
-
-  45% {
-    border-color: rgba(118, 244, 215, 0.9);
-
-    box-shadow:
-      inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.04),
-      inset -2.75rem -3rem 5rem rgba(1, 7, 16, 0.42),
-      0 0 0 0.5rem rgba(46, 230, 214, 0.028),
-      0 0 5.75rem rgba(46, 230, 214, 0.14),
-      0 2.5rem 6rem rgba(0, 0, 0, 0.32);
-  }
-}
-
 /* ==================================================
    DISCOVER
 ================================================== */
@@ -227,6 +157,7 @@
   position: relative;
 
   display: grid;
+
   gap: var(--space-10, 2.5rem);
 
   align-items: center;
@@ -234,6 +165,7 @@
 
 .discover-hero__content {
   position: relative;
+
   z-index: 2;
 
   max-width: 43rem;
@@ -245,8 +177,11 @@
   color: var(--color-aqua);
 
   font-size: var(--font-size-caption);
+
   font-weight: var(--font-weight-semibold);
+
   letter-spacing: 0.16em;
+
   text-transform: uppercase;
 }
 
@@ -256,6 +191,7 @@
   font-size: clamp(3.35rem, 9vw, var(--font-size-display));
 
   line-height: 0.94;
+
   letter-spacing: -0.055em;
 
   text-wrap: balance;
@@ -271,6 +207,7 @@
   color: var(--color-text-secondary);
 
   font-size: 1.0625rem;
+
   line-height: 1.8;
 }
 
@@ -299,7 +236,7 @@
 }
 
 /* ==================================================
-   D3.1 — QUIET INTERACTIVE ORBIT OBJECT
+   PASSIVE ORBIT OBJECT
 ================================================== */
 
 @property --orbit-light-x {
@@ -330,11 +267,16 @@
   position: relative;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
   min-height: 18rem;
 }
+
+/* --------------------------------------------------
+   Atmospheric halo
+-------------------------------------------------- */
 
 .discover-hero__visual::before {
   content: "";
@@ -342,6 +284,7 @@
   position: absolute;
 
   width: min(72vw, 24rem);
+
   aspect-ratio: 1;
 
   border-radius: 50%;
@@ -350,23 +293,26 @@
 
   background: radial-gradient(
     circle,
-    rgba(46, 230, 214, 0.12),
-    rgba(52, 94, 170, 0.055) 42%,
+    rgba(46, 230, 214, 0.105),
+    rgba(52, 94, 170, 0.045) 42%,
     transparent 72%
   );
 
   filter: blur(1.1rem);
 
-  transition:
-    opacity 450ms ease,
-    transform 450ms ease;
+  transition: opacity 650ms var(--ease-standard);
 }
 
 /* --------------------------------------------------
-   Interactive wrapper
+   Passive pointer field
+
+   This is deliberately NOT a button.
+
+   The cursor remains normal because this visual does
+   not perform an action.
 -------------------------------------------------- */
 
-.discover-orbit-control {
+.discover-orbit-field {
   --orbit-light-x: 33%;
   --orbit-light-y: 27%;
 
@@ -374,40 +320,22 @@
   --orbit-ring-shift-y: 0px;
 
   position: relative;
+
   z-index: 1;
 
   width: min(62vw, 16rem);
 
   display: grid;
+
   place-items: center;
 
-  padding: 0;
+  cursor: default;
 
-  border: 0;
-
-  appearance: none;
-
-  background: transparent;
-  color: inherit;
-
-  font: inherit;
-
-  cursor: pointer;
-
-  -webkit-tap-highlight-color: transparent;
-
-  touch-action: manipulation;
-}
-
-.discover-orbit-control:focus {
-  outline: none;
+  user-select: none;
 }
 
 /* --------------------------------------------------
    Object shell
-
-   The ring sits outside the sphere and therefore
-   must not be clipped by the sphere's circular mask.
 -------------------------------------------------- */
 
 .discover-orbit-shell {
@@ -416,14 +344,14 @@
   display: block;
 
   width: 100%;
+
   aspect-ratio: 1;
 }
 
 /* --------------------------------------------------
    Main sphere
 
-   Important: the sphere itself never rotates or
-   scales. It stays perfectly circular at all times.
+   The silhouette never moves, rotates or deforms.
 -------------------------------------------------- */
 
 .discover-orbit-visual {
@@ -432,57 +360,59 @@
   display: block;
 
   width: 100%;
+
   aspect-ratio: 1;
 
   overflow: hidden;
 
-  border: 0.0625rem solid rgba(118, 244, 215, 0.72);
+  border: 0.0625rem solid rgba(118, 244, 215, 0.68);
 
   border-radius: 50%;
 
   background:
     radial-gradient(
       circle at var(--orbit-light-x) var(--orbit-light-y),
-      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.18),
       transparent 19%
     ),
     radial-gradient(
       ellipse at 64% 59%,
-      rgba(46, 230, 214, 0.28),
+      rgba(46, 230, 214, 0.26),
       transparent 25%
     ),
     radial-gradient(
       ellipse at 42% 68%,
-      rgba(68, 104, 190, 0.18),
+      rgba(68, 104, 190, 0.17),
       transparent 37%
     ),
     linear-gradient(145deg, #2a4d7d 0%, #1a3763 42%, #102641 72%, #091726 100%);
 
   box-shadow:
-    inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.035),
+    inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.032),
     inset -2.75rem -3rem 5rem rgba(1, 7, 16, 0.42),
-    0 0 0 0.5rem rgba(46, 230, 214, 0.018),
-    0 0 5rem rgba(46, 230, 214, 0.085),
+    0 0 0 0.5rem rgba(46, 230, 214, 0.016),
+    0 0 4.75rem rgba(46, 230, 214, 0.075),
     0 2.5rem 6rem rgba(0, 0, 0, 0.32);
 
   transition:
-    --orbit-light-x 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    --orbit-light-y 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    border-color 400ms ease,
-    box-shadow 450ms ease;
+    --orbit-light-x 650ms var(--ease-standard),
+    --orbit-light-y 650ms var(--ease-standard),
+    border-color 500ms var(--ease-standard),
+    box-shadow 650ms var(--ease-standard);
 }
 
 /* --------------------------------------------------
-   Soft internal depth layer
+   Internal depth sheen
 -------------------------------------------------- */
 
 .discover-orbit-visual::before {
   content: "";
 
   position: absolute;
+
   inset: 6%;
 
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.045);
 
   border-radius: 50%;
 
@@ -491,34 +421,9 @@
   background: linear-gradient(
     112deg,
     transparent 24%,
-    rgba(255, 255, 255, 0.035) 43%,
+    rgba(255, 255, 255, 0.03) 43%,
     transparent 59%
   );
-}
-
-/* --------------------------------------------------
-   Click-response surface sweep
--------------------------------------------------- */
-
-.discover-orbit-visual::after {
-  content: "";
-
-  position: absolute;
-  inset: -18% -45%;
-
-  pointer-events: none;
-
-  opacity: 0;
-
-  background: linear-gradient(
-    104deg,
-    transparent 35%,
-    rgba(255, 255, 255, 0.08) 46%,
-    rgba(46, 230, 214, 0.07) 52%,
-    transparent 64%
-  );
-
-  transform: translateX(-135%);
 }
 
 /* --------------------------------------------------
@@ -530,7 +435,7 @@
 
   inset: -10%;
 
-  border: 1px solid rgba(118, 244, 215, 0.14);
+  border: 1px solid rgba(118, 244, 215, 0.13);
 
   border-radius: 50%;
 
@@ -543,79 +448,36 @@
     )
     rotate(-18deg) scaleY(0.36);
 
-  box-shadow: 0 0 2rem rgba(46, 230, 214, 0.035);
+  box-shadow: 0 0 2rem rgba(46, 230, 214, 0.03);
 
   transition:
-    transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    border-color 400ms ease,
-    box-shadow 400ms ease;
+    transform 700ms var(--ease-standard),
+    border-color 550ms var(--ease-standard),
+    box-shadow 650ms var(--ease-standard);
 }
 
 /* --------------------------------------------------
-   Natural hover / pointer presence
+   Fine-pointer hover atmosphere
+
+   Extremely subtle. This should never look like a
+   button hover state.
 -------------------------------------------------- */
 
 @media (hover: hover) and (pointer: fine) {
-  .discover-orbit-control:hover .discover-orbit-visual {
-    border-color: rgba(118, 244, 215, 0.82);
+  .discover-orbit-field:hover .discover-orbit-visual {
+    border-color: rgba(118, 244, 215, 0.76);
 
     box-shadow:
-      inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.038),
+      inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.035),
       inset -2.75rem -3rem 5rem rgba(1, 7, 16, 0.42),
-      0 0 0 0.5rem rgba(46, 230, 214, 0.02),
-      0 0 5.25rem rgba(46, 230, 214, 0.105),
+      0 0 0 0.5rem rgba(46, 230, 214, 0.018),
+      0 0 5rem rgba(46, 230, 214, 0.09),
       0 2.5rem 6rem rgba(0, 0, 0, 0.32);
   }
 
-  .discover-orbit-control:hover .discover-orbit-visual__ring {
-    border-color: rgba(118, 244, 215, 0.18);
+  .discover-orbit-field:hover .discover-orbit-visual__ring {
+    border-color: rgba(118, 244, 215, 0.155);
   }
-}
-
-/* --------------------------------------------------
-   Keyboard focus
--------------------------------------------------- */
-
-.discover-orbit-control:focus-visible .discover-orbit-visual {
-  border-color: var(--color-focus);
-
-  box-shadow:
-    0 0 0 0.2rem rgba(247, 209, 84, 0.14),
-    inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.04),
-    inset -2.75rem -3rem 5rem rgba(1, 7, 16, 0.42),
-    0 0 5.4rem rgba(46, 230, 214, 0.11),
-    0 2.5rem 6rem rgba(0, 0, 0, 0.32);
-}
-
-/* --------------------------------------------------
-   Single controlled activation response
--------------------------------------------------- */
-
-.discover-orbit-control.is-orbit-responding .discover-orbit-visual {
-  animation: orbit-glow-response 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 1;
-}
-
-.discover-orbit-control.is-orbit-responding .discover-orbit-visual::after {
-  animation: orbit-surface-sweep 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 1;
-}
-
-.discover-orbit-control.is-orbit-responding .discover-orbit-visual__ring {
-  animation: orbit-ring-response 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 1;
-}
-
-/* --------------------------------------------------
-   Reduced-motion static activation response
--------------------------------------------------- */
-
-.discover-orbit-control.is-orbit-reduced-response .discover-orbit-visual {
-  border-color: var(--color-focus);
-
-  box-shadow:
-    0 0 0 0.18rem rgba(247, 209, 84, 0.12),
-    inset 1rem 1rem 2.5rem rgba(255, 255, 255, 0.04),
-    inset -2.75rem -3rem 5rem rgba(1, 7, 16, 0.42),
-    0 0 5.4rem rgba(46, 230, 214, 0.12),
-    0 2.5rem 6rem rgba(0, 0, 0, 0.32);
 }
 
 /* ==================================================
@@ -624,6 +486,7 @@
 
 .featured-section {
   position: relative;
+
   isolation: isolate;
 
   padding-block: var(--space-10, 2.5rem) var(--space-24);
@@ -633,6 +496,7 @@
   content: "";
 
   position: absolute;
+
   inset: -6rem -4rem 0;
 
   z-index: -2;
@@ -656,6 +520,7 @@
   content: "";
 
   position: absolute;
+
   inset: 0 -3rem;
 
   z-index: -1;
@@ -706,6 +571,7 @@
 
 .featured-section .section-heading__link {
   display: inline-flex;
+
   align-items: center;
 
   gap: var(--space-2);
@@ -821,6 +687,7 @@
   flex: 1;
 
   display: flex;
+
   flex-direction: column;
 
   padding: var(--space-5);
@@ -851,7 +718,9 @@
   color: var(--color-aqua);
 
   font-size: 0.875rem;
+
   font-weight: var(--font-weight-semibold);
+
   letter-spacing: 0.01em;
 }
 
@@ -888,6 +757,7 @@
   font-size: clamp(2.75rem, 7vw, 4.5rem);
 
   line-height: 1;
+
   letter-spacing: -0.04em;
 }
 
@@ -899,6 +769,7 @@
   color: var(--color-text-secondary);
 
   font-size: 1rem;
+
   line-height: 1.7;
 }
 
@@ -920,11 +791,13 @@
   color: var(--color-text-primary);
 
   font-size: 0.875rem;
+
   font-weight: var(--font-weight-semibold);
 }
 
 .explore-search__control {
   display: flex;
+
   align-items: stretch;
 
   overflow: hidden;
@@ -955,6 +828,7 @@
   padding-inline: var(--space-4);
 
   border: 0;
+
   outline: 0;
 
   background: transparent;
@@ -974,6 +848,7 @@
   border: 0;
 
   background: var(--color-aqua);
+
   color: var(--color-text-inverse);
 
   font-weight: var(--font-weight-semibold);
@@ -995,6 +870,7 @@
   margin-top: var(--space-2);
 
   font-size: var(--font-size-caption);
+
   line-height: var(--line-height-caption);
 }
 
@@ -1012,11 +888,13 @@
   color: var(--color-text-primary);
 
   font-size: 0.875rem;
+
   font-weight: var(--font-weight-semibold);
 }
 
 .topic-list {
   display: flex;
+
   flex-wrap: wrap;
 
   gap: var(--space-2);
@@ -1026,7 +904,9 @@
   min-height: var(--control-min-height);
 
   display: inline-flex;
+
   align-items: center;
+
   justify-content: center;
 
   padding-inline: var(--space-4);
@@ -1036,9 +916,11 @@
   border-radius: var(--radius-pill);
 
   background: var(--color-surface);
+
   color: var(--color-text-secondary);
 
   font-size: 0.875rem;
+
   font-weight: var(--font-weight-medium);
 
   cursor: pointer;
@@ -1054,6 +936,7 @@
   border-color: var(--color-aqua);
 
   background: var(--color-surface-raised);
+
   color: var(--color-text-primary);
 
   transform: translateY(-0.0625rem);
@@ -1064,7 +947,7 @@
 }
 
 /* --------------------------------------------------
-   Explore results area
+   Explore results
 -------------------------------------------------- */
 
 .explore-results-section {
@@ -1099,8 +982,11 @@
   color: var(--color-aqua);
 
   font-size: var(--font-size-caption);
+
   font-weight: var(--font-weight-semibold);
+
   letter-spacing: 0.1em;
+
   text-transform: uppercase;
 }
 
@@ -1144,7 +1030,9 @@
 
 .results-header {
   display: flex;
+
   align-items: end;
+
   justify-content: space-between;
 
   gap: var(--space-4);
@@ -1158,8 +1046,11 @@
   color: var(--color-aqua);
 
   font-size: var(--font-size-caption);
+
   font-weight: var(--font-weight-semibold);
+
   letter-spacing: 0.1em;
+
   text-transform: uppercase;
 }
 
@@ -1174,6 +1065,10 @@
 
   font-size: 0.875rem;
 }
+
+/* --------------------------------------------------
+   Dynamic results grid
+-------------------------------------------------- */
 
 .results-grid {
   display: grid;
@@ -1195,6 +1090,10 @@
   display: none !important;
 }
 
+/* --------------------------------------------------
+   Details navigation
+-------------------------------------------------- */
+
 .details-panel__navigation {
   margin-bottom: var(--space-6);
 }
@@ -1203,7 +1102,9 @@
   min-height: var(--control-min-height);
 
   display: inline-flex;
+
   align-items: center;
+
   justify-content: center;
 
   gap: var(--space-2);
@@ -1213,9 +1114,11 @@
   border: 0;
 
   background: transparent;
+
   color: var(--color-text-secondary);
 
   font-size: 0.9375rem;
+
   font-weight: var(--font-weight-semibold);
 
   cursor: pointer;
@@ -1235,6 +1138,10 @@
   transform: translateX(0);
 }
 
+/* --------------------------------------------------
+   Details layout
+-------------------------------------------------- */
+
 .details-panel__layout {
   display: grid;
 
@@ -1247,6 +1154,10 @@
 .details-panel__content {
   min-width: 0;
 }
+
+/* --------------------------------------------------
+   Details image
+-------------------------------------------------- */
 
 .details-panel__media {
   overflow: hidden;
@@ -1264,11 +1175,13 @@
   display: block;
 
   width: 100%;
+
   height: auto;
 
   aspect-ratio: 4 / 3;
 
   object-fit: contain;
+
   object-position: center;
 
   background: var(--color-surface-raised);
@@ -1276,9 +1189,11 @@
 
 .details-panel__image-fallback {
   width: 100%;
+
   aspect-ratio: 4 / 3;
 
   display: grid;
+
   place-items: center;
 
   padding: var(--space-6);
@@ -1292,6 +1207,10 @@
   text-align: center;
 }
 
+/* --------------------------------------------------
+   Details content
+-------------------------------------------------- */
+
 .details-panel__content {
   max-width: 48rem;
 }
@@ -1302,8 +1221,11 @@
   color: var(--color-aqua);
 
   font-size: var(--font-size-caption);
+
   font-weight: var(--font-weight-semibold);
+
   letter-spacing: 0.12em;
+
   text-transform: uppercase;
 }
 
@@ -1313,13 +1235,19 @@
   font-size: clamp(2rem, 6vw, 3.5rem);
 
   line-height: 1.05;
+
   letter-spacing: -0.035em;
 
   overflow-wrap: anywhere;
 }
 
+/* --------------------------------------------------
+   Details metadata
+-------------------------------------------------- */
+
 .details-panel__metadata {
   display: grid;
+
   gap: 0;
 
   margin-top: var(--space-8);
@@ -1345,8 +1273,11 @@
   color: var(--color-text-secondary);
 
   font-size: var(--font-size-caption);
+
   font-weight: var(--font-weight-semibold);
+
   letter-spacing: 0.08em;
+
   text-transform: uppercase;
 }
 
@@ -1356,10 +1287,15 @@
   color: var(--color-text-primary);
 
   font-size: 0.9375rem;
+
   line-height: 1.6;
 
   overflow-wrap: anywhere;
 }
+
+/* --------------------------------------------------
+   Details text
+-------------------------------------------------- */
 
 .details-panel__description,
 .details-panel__provenance {
@@ -1372,6 +1308,7 @@
   color: var(--color-text-primary);
 
   font-size: 1rem;
+
   line-height: 1.5;
 }
 
@@ -1410,18 +1347,20 @@
     animation: none;
   }
 
-  .discover-orbit-visual,
-  .discover-orbit-visual::after,
-  .discover-orbit-visual__ring {
-    animation: none !important;
-    transition: none;
+  .discover-orbit-field {
+    --orbit-light-x: 33% !important;
+
+    --orbit-light-y: 27% !important;
+
+    --orbit-ring-shift-x: 0px !important;
+
+    --orbit-ring-shift-y: 0px !important;
   }
 
-  .discover-orbit-control {
-    --orbit-light-x: 33% !important;
-    --orbit-light-y: 27% !important;
-    --orbit-ring-shift-x: 0px !important;
-    --orbit-ring-shift-y: 0px !important;
+  .discover-orbit-visual,
+  .discover-orbit-visual__ring,
+  .discover-hero__visual::before {
+    transition: none;
   }
 
   .featured-discovery-card,
@@ -1453,6 +1392,8 @@
 ================================================== */
 
 @media (min-width: 48rem) {
+  /* Discover */
+
   .discover-hero {
     padding-block: var(--space-16) var(--space-24);
   }
@@ -1469,13 +1410,15 @@
     min-height: 26rem;
   }
 
-  .discover-orbit-control {
+  .discover-orbit-field {
     width: min(32vw, 25rem);
   }
 
   .featured-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* Explore */
 
   .explore-hero {
     padding-block: var(--space-12) var(--space-10, 2.5rem);
@@ -1484,6 +1427,8 @@
   .results-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* Details */
 
   .details-panel {
     padding-block: var(--space-10, 2.5rem) var(--space-24);
@@ -1503,6 +1448,8 @@
 ================================================== */
 
 @media (min-width: 75rem) {
+  /* Discover */
+
   .discover-hero__layout {
     grid-template-columns:
       minmax(0, 1.2fr)
@@ -1519,6 +1466,8 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  /* Explore */
+
   .explore-hero {
     padding-block: var(--space-16) var(--space-12);
   }
@@ -1526,6 +1475,8 @@
   .results-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  /* Details */
 
   .details-panel__layout {
     grid-template-columns:

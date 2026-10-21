@@ -1,89 +1,90 @@
 /* --------------------------------------------------
-   ORBIT Discover page
+   ORBIT Discover Page
 
-   D3.1 — Quiet ORBIT Interaction
+   Milestone 10.1A
+   Quiet passive ORBIT atmosphere.
 
-   Discover remains presentation-led.
-   Search, Details and Save/Saved belong to Explore.
+   The signature ORBIT object is decorative rather
+   than functional.
 
-   The signature ORBIT object is intentionally calm:
+   Fine-pointer users receive only:
+   - subtle internal-light movement
+   - tiny orbital-ring parallax
+   - smooth return to the canonical resting state
 
-   - the sphere itself never tilts or accumulates rotation
-   - pointer movement shifts only internal light slightly
-   - the orbital ring moves by only a few pixels
-   - click / Enter / Space runs one short visual response
-   - every response returns completely to the resting state
-   - prefers-reduced-motion receives static feedback only
+   There is intentionally:
+   - no click behaviour
+   - no accumulated state
+   - no rotation
+   - no keyboard interaction
+   - no touch interaction
+   - no essential information in the object
+
+   Reduced-motion users receive a fully static object.
 -------------------------------------------------- */
 
-const orbitControl = document.querySelector("#discover-orbit-control");
+/* --------------------------------------------------
+   DOM
+-------------------------------------------------- */
 
-if (orbitControl) {
-  initialiseOrbitObject(orbitControl);
+const orbitField = document.querySelector("#discover-orbit-field");
+
+/* --------------------------------------------------
+   Initialise
+-------------------------------------------------- */
+
+if (orbitField) {
+  initialiseOrbitField(orbitField);
 }
 
 /* --------------------------------------------------
-   Initialise quiet ORBIT interaction
+   Passive ORBIT interaction
 -------------------------------------------------- */
 
-function initialiseOrbitObject(control) {
+function initialiseOrbitField(field) {
   const reducedMotionQuery = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   );
 
   const state = {
     pointerFrame: null,
-    responseTimeout: null,
-    reducedResponseTimeout: null,
   };
 
-  control.addEventListener("pointermove", (event) => {
+  field.addEventListener("pointermove", (event) => {
+    /*
+        Touch receives the calm static composition.
+
+        Pointer movement is decorative enhancement,
+        not required functionality.
+      */
+
     if (reducedMotionQuery.matches || event.pointerType === "touch") {
       return;
     }
 
-    schedulePointerResponse(control, event, state);
+    schedulePointerResponse(field, event, state);
   });
 
-  control.addEventListener("pointerleave", () => {
-    resetPointerResponse(control, state);
+  field.addEventListener("pointerleave", () => {
+    resetOrbitField(field, state);
   });
 
   /*
-    A native button already maps Enter and Space to click,
-    so pointer and keyboard users receive the same response.
+    If the user's motion preference changes while
+    ORBIT is already open, immediately restore the
+    exact resting state.
   */
 
-  control.addEventListener("click", () => {
-    resetPointerResponse(control, state);
-
-    if (reducedMotionQuery.matches) {
-      showReducedMotionResponse(control, state);
-      return;
-    }
-
-    playOrbitResponse(control, state);
-  });
-
-  reducedMotionQuery.addEventListener("change", (event) => {
-    resetPointerResponse(control, state);
-
-    control.classList.remove(
-      "is-orbit-responding",
-      "is-orbit-reduced-response",
-    );
-
-    if (event.matches) {
-      clearResponseTimers(state);
-    }
+  reducedMotionQuery.addEventListener("change", () => {
+    resetOrbitField(field, state);
   });
 }
 
 /* --------------------------------------------------
-   Subtle pointer lighting
+   Pointer response
 -------------------------------------------------- */
 
-function schedulePointerResponse(control, event, state) {
+function schedulePointerResponse(field, event, state) {
   const clientX = event.clientX;
   const clientY = event.clientY;
 
@@ -94,9 +95,9 @@ function schedulePointerResponse(control, event, state) {
   state.pointerFrame = window.requestAnimationFrame(() => {
     state.pointerFrame = null;
 
-    const rect = control.getBoundingClientRect();
+    const rect = field.getBoundingClientRect();
 
-    if (!rect.width || !rect.height) {
+    if (rect.width <= 0 || rect.height <= 0) {
       return;
     }
 
@@ -105,31 +106,41 @@ function schedulePointerResponse(control, event, state) {
     const normalisedY = ((clientY - rect.top) / rect.height - 0.5) * 2;
 
     /*
-      The highlight moves only a few percentage points.
-      The sphere silhouette never changes.
-    */
+          Deliberately restrained.
 
-    const lightX = clamp(33 + normalisedX * 4.5, 28.5, 37.5);
-    const lightY = clamp(27 + normalisedY * 4, 23, 31);
+          Lighting moves only three percentage points
+          away from the resting position.
+
+          This should be felt more than consciously
+          watched.
+        */
+
+    const lightX = clamp(33 + normalisedX * 3, 30, 36);
+
+    const lightY = clamp(27 + normalisedY * 2.5, 24.5, 29.5);
 
     /*
-      The ring shifts by at most two pixels to suggest
-      separation from the sphere without looking animated.
-    */
+          Ring parallax is capped around one pixel.
 
-    const ringShiftX = clamp(normalisedX * 2, -2, 2);
-    const ringShiftY = clamp(normalisedY * 1.5, -1.5, 1.5);
+          It creates just enough depth to separate
+          foreground and background without becoming
+          an animation feature.
+        */
 
-    control.style.setProperty("--orbit-light-x", `${lightX.toFixed(2)}%`);
+    const ringShiftX = clamp(normalisedX * 1.1, -1.1, 1.1);
 
-    control.style.setProperty("--orbit-light-y", `${lightY.toFixed(2)}%`);
+    const ringShiftY = clamp(normalisedY * 0.8, -0.8, 0.8);
 
-    control.style.setProperty(
+    field.style.setProperty("--orbit-light-x", `${lightX.toFixed(2)}%`);
+
+    field.style.setProperty("--orbit-light-y", `${lightY.toFixed(2)}%`);
+
+    field.style.setProperty(
       "--orbit-ring-shift-x",
       `${ringShiftX.toFixed(2)}px`,
     );
 
-    control.style.setProperty(
+    field.style.setProperty(
       "--orbit-ring-shift-y",
       `${ringShiftY.toFixed(2)}px`,
     );
@@ -137,86 +148,28 @@ function schedulePointerResponse(control, event, state) {
 }
 
 /* --------------------------------------------------
-   Return fully to canonical resting state
+   Canonical resting state
 -------------------------------------------------- */
 
-function resetPointerResponse(control, state) {
+function resetOrbitField(field, state) {
   if (state.pointerFrame !== null) {
     window.cancelAnimationFrame(state.pointerFrame);
+
     state.pointerFrame = null;
   }
 
-  control.style.setProperty("--orbit-light-x", "33%");
-  control.style.setProperty("--orbit-light-y", "27%");
-  control.style.setProperty("--orbit-ring-shift-x", "0px");
-  control.style.setProperty("--orbit-ring-shift-y", "0px");
+  field.style.setProperty("--orbit-light-x", "33%");
+
+  field.style.setProperty("--orbit-light-y", "27%");
+
+  field.style.setProperty("--orbit-ring-shift-x", "0px");
+
+  field.style.setProperty("--orbit-ring-shift-y", "0px");
 }
 
 /* --------------------------------------------------
-   Click / keyboard response
-
-   No value accumulates between activations.
-   Every activation restarts the same short response.
+   Number helper
 -------------------------------------------------- */
-
-function playOrbitResponse(control, state) {
-  control.classList.remove("is-orbit-responding");
-
-  /*
-    Force style recalculation so rapid repeated activation
-    restarts the same controlled response from the beginning.
-  */
-
-  void control.offsetWidth;
-
-  control.classList.add("is-orbit-responding");
-
-  if (state.responseTimeout !== null) {
-    window.clearTimeout(state.responseTimeout);
-  }
-
-  state.responseTimeout = window.setTimeout(() => {
-    control.classList.remove("is-orbit-responding");
-    state.responseTimeout = null;
-  }, 950);
-}
-
-/* --------------------------------------------------
-   Reduced-motion response
--------------------------------------------------- */
-
-function showReducedMotionResponse(control, state) {
-  control.classList.remove("is-orbit-reduced-response");
-
-  void control.offsetWidth;
-
-  control.classList.add("is-orbit-reduced-response");
-
-  if (state.reducedResponseTimeout !== null) {
-    window.clearTimeout(state.reducedResponseTimeout);
-  }
-
-  state.reducedResponseTimeout = window.setTimeout(() => {
-    control.classList.remove("is-orbit-reduced-response");
-    state.reducedResponseTimeout = null;
-  }, 450);
-}
-
-/* --------------------------------------------------
-   Cleanup helpers
--------------------------------------------------- */
-
-function clearResponseTimers(state) {
-  if (state.responseTimeout !== null) {
-    window.clearTimeout(state.responseTimeout);
-    state.responseTimeout = null;
-  }
-
-  if (state.reducedResponseTimeout !== null) {
-    window.clearTimeout(state.reducedResponseTimeout);
-    state.reducedResponseTimeout = null;
-  }
-}
 
 function clamp(value, minimum, maximum) {
   return Math.min(Math.max(value, minimum), maximum);

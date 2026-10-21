@@ -20,7 +20,7 @@
   </head>
 
   <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#main-content"> Skip to main content </a>
 
     <header class="site-header">
       <div class="container">
@@ -49,6 +49,10 @@
     </header>
 
     <main id="main-content" class="page-main" tabindex="-1">
+      <!-- ==================================================
+           DISCOVER HERO
+      =================================================== -->
+
       <section class="discover-hero">
         <div class="container discover-hero__layout">
           <div class="discover-hero__content">
@@ -69,26 +73,40 @@
             </a>
           </div>
 
+          <!-- ==================================================
+               PASSIVE ORBIT OBJECT
+
+               This artwork is decorative.
+
+               Fine-pointer users receive an extremely subtle
+               lighting/parallax response.
+
+               It is deliberately:
+               - not clickable
+               - not keyboard focusable
+               - hidden from assistive technology
+               - static for reduced-motion users
+               - static on touch devices
+          =================================================== -->
+
           <div class="discover-hero__visual">
-            <button
-              id="discover-orbit-control"
-              class="discover-orbit-control"
-              type="button"
-              aria-label="Interact with the ORBIT object"
-              aria-describedby="discover-orbit-description"
+            <div
+              id="discover-orbit-field"
+              class="discover-orbit-field"
+              aria-hidden="true"
             >
-              <span class="discover-orbit-shell" aria-hidden="true">
+              <span class="discover-orbit-shell">
                 <span class="discover-orbit-visual"></span>
                 <span class="discover-orbit-visual__ring"></span>
               </span>
-            </button>
-
-            <p id="discover-orbit-description" class="visually-hidden">
-              Press Enter or Space for a subtle visual response.
-            </p>
+            </div>
           </div>
         </div>
       </section>
+
+      <!-- ==================================================
+           FEATURED DISCOVERIES
+      =================================================== -->
 
       <section class="featured-section" aria-labelledby="featured-title">
         <div class="container">
@@ -104,6 +122,8 @@
           </div>
 
           <div class="featured-grid">
+            <!-- Pillars of Creation -->
+
             <article class="media-card featured-discovery-card">
               <a
                 class="featured-discovery-card__link"
@@ -133,11 +153,14 @@
                     aria-hidden="true"
                   >
                     <span>Explore discovery</span>
-                    <span class="featured-discovery-card__arrow">→</span>
+
+                    <span class="featured-discovery-card__arrow"> → </span>
                   </div>
                 </div>
               </a>
             </article>
+
+            <!-- Spiral Galaxy M101 -->
 
             <article class="media-card featured-discovery-card">
               <a
@@ -168,11 +191,14 @@
                     aria-hidden="true"
                   >
                     <span>Explore discovery</span>
-                    <span class="featured-discovery-card__arrow">→</span>
+
+                    <span class="featured-discovery-card__arrow"> → </span>
                   </div>
                 </div>
               </a>
             </article>
+
+            <!-- Earth from Space -->
 
             <article class="media-card featured-discovery-card">
               <a
@@ -203,7 +229,8 @@
                     aria-hidden="true"
                   >
                     <span>Explore discovery</span>
-                    <span class="featured-discovery-card__arrow">→</span>
+
+                    <span class="featured-discovery-card__arrow"> → </span>
                   </div>
                 </div>
               </a>
