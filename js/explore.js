@@ -90,6 +90,23 @@ const PRIMARY_TITLE_CHARACTER_LIMIT = 220;
 
 const GENERIC_ARCHIVE_TITLE_PATTERN = /^[A-Z]{2,8}-\d{4}-\d+(?:-\d+)?$/i;
 
+/*
+  Step 8.2
+
+  A search must contain at least one Unicode letter
+  or number.
+
+  This prevents punctuation-only searches such as
+  "!!!!!!!!" from being interpreted by NASA as a
+  broad/empty search that returns thousands of
+  unrelated records.
+
+  Unicode property escapes also mean legitimate
+  non-English letters remain searchable.
+*/
+
+const SEARCHABLE_CHARACTER_PATTERN = /[\p{L}\p{N}]/u;
+
 /* --------------------------------------------------
    Global curated rejection terms
 -------------------------------------------------- */
@@ -1506,6 +1523,16 @@ function normaliseText(value) {
   return typeof value === "string"
     ? value.toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, " ").trim()
     : "";
+}
+
+/* --------------------------------------------------
+   Step 8.2 — meaningful search validation
+-------------------------------------------------- */
+
+function hasSearchableCharacters(value) {
+  const query = normaliseQuery(value);
+
+  return SEARCHABLE_CHARACTER_PATTERN.test(query);
 }
 
 function includesAny(text, terms) {
@@ -3015,6 +3042,57 @@ function handleBlankSearch() {
 }
 
 /* --------------------------------------------------
+   Step 8.2
+   Symbol-only / meaningless search
+-------------------------------------------------- */
+
+function handleInvalidSearch(query) {
+  const cleanedQuery = normaliseQuery(query);
+
+  currentSearchTerm = "";
+
+  updateTopicSelection("");
+
+  /*
+    Cancel any previous request so stale NASA results
+    cannot appear after this validation state.
+  */
+
+  if (activeController) {
+    activeController.abort();
+
+    activeController = null;
+  }
+
+  /*
+    Invalidate any request that may already be
+    completing in the background.
+  */
+
+  latestRequestId += 1;
+
+  /*
+    Invalid searches are not stored in the URL.
+
+    The typed text stays in the input so the user can
+    understand what needs to be corrected.
+  */
+
+  updateUrlQuery("");
+
+  searchInput.value = cleanedQuery;
+
+  setGuidance(
+    "Enter at least one letter or number to search NASA images.",
+    true,
+  );
+
+  showState(SEARCH_STATES.INITIAL);
+
+  searchInput.focus();
+}
+
+/* --------------------------------------------------
    Main search
 -------------------------------------------------- */
 
@@ -3023,6 +3101,37 @@ async function runSearch(query, { updateUrl = true } = {}) {
 
   if (!cleanedQuery) {
     handleBlankSearch();
+
+    return;
+  }
+
+  /*
+    Step 8.2
+
+    Do not send symbol-only searches to NASA.
+
+    Examples blocked:
+    !!!!!!!!
+    @#$%^&*()
+    ---
+    ...
+
+    Examples still allowed:
+    Mars
+    Mars???
+    Mars 2026
+    Apollo 11
+    NGC 1300
+    Mars🌌
+    <script>alert(1)</script>
+
+    The final example remains plain text because ORBIT
+    renders returned/user-facing strings with
+    textContent rather than innerHTML.
+  */
+
+  if (!hasSearchableCharacters(cleanedQuery)) {
+    handleInvalidSearch(cleanedQuery);
 
     return;
   }
