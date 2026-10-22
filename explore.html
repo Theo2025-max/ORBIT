@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>ORBIT | Explore</title>
@@ -12,15 +13,22 @@
     />
 
     <link rel="stylesheet" href="css/reset.css" />
+
     <link rel="stylesheet" href="css/tokens.css" />
+
     <link rel="stylesheet" href="css/base.css" />
+
     <link rel="stylesheet" href="css/components.css" />
+
     <link rel="stylesheet" href="css/pages.css" />
+
     <link rel="stylesheet" href="css/responsive.css" />
+
+    <link rel="stylesheet" href="css/explore.css" />
   </head>
 
   <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#main-content"> Skip to main content </a>
 
     <header class="site-header">
       <div class="container">
@@ -139,6 +147,13 @@
         aria-label="NASA image results"
       >
         <div class="container">
+          <!-- ==================================================
+               ACCESSIBLE SEARCH STATE
+
+               The loading enhancement observes this existing
+               state rather than owning search behaviour.
+          =================================================== -->
+
           <div
             id="search-status"
             class="search-status"
@@ -169,7 +184,8 @@
               <h2 class="search-state__title">Searching NASA images…</h2>
 
               <p class="search-state__message">
-                Your search term will remain visible while results load.
+                Finding suitable NASA imagery. Results will appear below as soon
+                as they are ready.
               </p>
             </div>
 
@@ -211,6 +227,10 @@
             </div>
           </div>
 
+          <!-- ==================================================
+               RESULTS HEADING
+          =================================================== -->
+
           <div id="results-header" class="results-header" hidden>
             <div>
               <p class="results-header__eyebrow">NASA Image Library</p>
@@ -224,6 +244,14 @@
               aria-live="polite"
             ></p>
           </div>
+
+          <!-- ==================================================
+               REAL RESULTS / TEMPORARY SKELETONS
+
+               Skeletons are inserted here only during loading.
+               They are aria-hidden and are replaced by the real
+               NASA cards created by explore.js.
+          =================================================== -->
 
           <div
             id="search-results"
@@ -251,12 +279,15 @@
               class="details-panel__back"
               type="button"
             >
-              <span aria-hidden="true">←</span>
+              <span aria-hidden="true"> ← </span>
+
               Back to results
             </button>
           </div>
 
           <div class="details-panel__layout">
+            <!-- Image -->
+
             <div class="details-panel__media">
               <img
                 id="details-image"
@@ -274,9 +305,11 @@
                 aria-label="NASA image unavailable"
                 hidden
               >
-                <span>Image unavailable</span>
+                <span> Image unavailable </span>
               </div>
             </div>
+
+            <!-- Information -->
 
             <div class="details-panel__content">
               <p class="details-panel__eyebrow">NASA Image Library</p>
@@ -285,22 +318,29 @@
                 Image details
               </h2>
 
+              <!-- Metadata -->
+
               <dl class="details-panel__metadata">
                 <div class="details-panel__metadata-item">
                   <dt>Source</dt>
+
                   <dd id="details-source">NASA</dd>
                 </div>
 
                 <div class="details-panel__metadata-item">
                   <dt>NASA record date</dt>
+
                   <dd id="details-date">Not available</dd>
                 </div>
 
                 <div class="details-panel__metadata-item">
                   <dt>NASA ID</dt>
+
                   <dd id="details-nasa-id">Not available</dd>
                 </div>
               </dl>
+
+              <!-- Description -->
 
               <div class="details-panel__description">
                 <h3 class="details-panel__section-title">About this image</h3>
@@ -309,6 +349,8 @@
                   NASA image information will appear here.
                 </p>
               </div>
+
+              <!-- Provenance -->
 
               <div class="details-panel__provenance">
                 <h3 class="details-panel__section-title">
@@ -329,7 +371,8 @@
                   hidden
                 >
                   View original NASA resource
-                  <span aria-hidden="true">↗</span>
+
+                  <span aria-hidden="true"> ↗ </span>
                 </a>
               </div>
             </div>
@@ -338,6 +381,16 @@
       </section>
     </main>
 
+    <!--
+      Core Explore behaviour remains authoritative.
+    -->
+
     <script type="module" src="js/explore.js"></script>
+
+    <!--
+      Progressive loading feedback only.
+    -->
+
+    <script type="module" src="js/explore-loading.js"></script>
   </body>
 </html>

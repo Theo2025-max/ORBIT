@@ -1,0 +1,218 @@
+/* --------------------------------------------------
+   ORBIT Explore loading experience
+
+   Milestone 10.2A.1
+
+   Progressive visual feedback for NASA searches.
+   Search logic remains owned by explore.js.
+-------------------------------------------------- */
+
+/* ==================================================
+   SEARCH BUTTON BUSY STATE
+================================================== */
+
+.explore-search__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.explore-search__spinner {
+  width: 0.95rem;
+  height: 0.95rem;
+
+  flex: 0 0 auto;
+
+  border: 0.125rem solid rgba(7, 19, 26, 0.28);
+
+  border-top-color: currentColor;
+
+  border-radius: 50%;
+
+  animation: orbit-search-spinner 850ms linear infinite;
+}
+
+@keyframes orbit-search-spinner {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* ==================================================
+   LOADING STATE REFINEMENT
+================================================== */
+
+.search-state--loading {
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(135deg, rgba(46, 230, 214, 0.055), transparent 52%),
+    var(--color-surface);
+}
+
+/* ==================================================
+   RESULT SKELETONS
+================================================== */
+
+.explore-skeleton-card {
+  pointer-events: none;
+
+  user-select: none;
+
+  border-color: rgba(181, 200, 222, 0.16);
+
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.012), transparent 45%),
+    var(--color-surface);
+
+  box-shadow:
+    0 0.75rem 2rem rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.012);
+}
+
+.explore-skeleton-card:hover {
+  transform: none;
+}
+
+.explore-skeleton-card__media,
+.explore-skeleton-card__line,
+.explore-skeleton-card__action {
+  position: relative;
+
+  overflow: hidden;
+
+  background: rgba(181, 200, 222, 0.075);
+}
+
+.explore-skeleton-card__media::after,
+.explore-skeleton-card__line::after,
+.explore-skeleton-card__action::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  transform: translateX(-115%);
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.045),
+    rgba(46, 230, 214, 0.035),
+    transparent
+  );
+
+  animation: orbit-skeleton-shimmer 2.15s var(--ease-standard) infinite;
+}
+
+@keyframes orbit-skeleton-shimmer {
+  0% {
+    transform: translateX(-115%);
+  }
+
+  65%,
+  100% {
+    transform: translateX(115%);
+  }
+}
+
+.explore-skeleton-card__media {
+  width: 100%;
+
+  aspect-ratio: 16 / 10;
+
+  background: linear-gradient(
+    145deg,
+    rgba(42, 58, 82, 0.7),
+    rgba(28, 43, 66, 0.8)
+  );
+}
+
+.explore-skeleton-card__body {
+  flex: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: var(--space-5);
+}
+
+.explore-skeleton-card__information {
+  display: grid;
+
+  gap: var(--space-2);
+}
+
+.explore-skeleton-card__line {
+  display: block;
+
+  height: 0.75rem;
+
+  border-radius: var(--radius-pill);
+}
+
+.explore-skeleton-card__line--title {
+  width: 82%;
+}
+
+.explore-skeleton-card__line--title-short {
+  width: 58%;
+}
+
+.explore-skeleton-card__line--source {
+  width: 30%;
+
+  height: 0.55rem;
+
+  margin-top: var(--space-1);
+
+  opacity: 0.72;
+}
+
+.explore-skeleton-card__actions {
+  margin-top: auto;
+
+  padding-top: var(--space-5);
+}
+
+.explore-skeleton-card__action {
+  display: block;
+
+  height: 2.25rem;
+
+  border-radius: var(--radius-sm);
+}
+
+.explore-skeleton-card__action--details {
+  width: 4.75rem;
+}
+
+.explore-skeleton-card__action--save {
+  width: 4.25rem;
+
+  border: var(--border-width) solid rgba(46, 230, 214, 0.18);
+}
+
+/* ==================================================
+   REDUCED MOTION
+================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .explore-search__spinner,
+  .explore-skeleton-card__media::after,
+  .explore-skeleton-card__line::after,
+  .explore-skeleton-card__action::after {
+    animation: none;
+  }
+
+  .explore-search__spinner {
+    border-color: rgba(7, 19, 26, 0.35);
+
+    border-top-color: currentColor;
+  }
+}
