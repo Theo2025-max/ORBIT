@@ -54,6 +54,37 @@
       =================================================== -->
 
       <section class="discover-hero">
+        <!--
+          Decorative multi-layer starfield.
+
+          Most stars are static.
+          Only sparse secondary layers move.
+          Hidden from assistive technology because it
+          conveys no content.
+        -->
+
+        <div class="discover-starfield" aria-hidden="true">
+          <span
+            class="discover-starfield__layer discover-starfield__layer--static"
+          ></span>
+
+          <span
+            class="discover-starfield__layer discover-starfield__layer--drift-one"
+          ></span>
+
+          <span
+            class="discover-starfield__layer discover-starfield__layer--drift-two"
+          ></span>
+
+          <span
+            class="discover-starfield__layer discover-starfield__layer--twinkle-one"
+          ></span>
+
+          <span
+            class="discover-starfield__layer discover-starfield__layer--twinkle-two"
+          ></span>
+        </div>
+
         <div class="container discover-hero__layout">
           <div class="discover-hero__content">
             <p class="eyebrow">The cosmos, closer</p>
@@ -76,17 +107,19 @@
           <!-- ==================================================
                PASSIVE ORBIT OBJECT
 
-               This artwork is decorative.
+               Decorative ambient object.
 
-               Fine-pointer users receive an extremely subtle
-               lighting/parallax response.
+               Fine-pointer users receive:
+               - subtle internal-light response
+               - tiny ring parallax
 
-               It is deliberately:
-               - not clickable
-               - not keyboard focusable
-               - hidden from assistive technology
-               - static for reduced-motion users
-               - static on touch devices
+               Ambient motion:
+               - internal surface slowly drifts
+               - ring gently precesses
+
+               No click behaviour.
+               No keyboard focus.
+               No essential information.
           =================================================== -->
 
           <div class="discover-hero__visual">
@@ -96,7 +129,10 @@
               aria-hidden="true"
             >
               <span class="discover-orbit-shell">
-                <span class="discover-orbit-visual"></span>
+                <span class="discover-orbit-visual">
+                  <span class="discover-orbit-visual__surface"></span>
+                </span>
+
                 <span class="discover-orbit-visual__ring"></span>
               </span>
             </div>
@@ -152,7 +188,7 @@
                     class="featured-discovery-card__action"
                     aria-hidden="true"
                   >
-                    <span>Explore discovery</span>
+                    <span> Explore discovery </span>
 
                     <span class="featured-discovery-card__arrow"> → </span>
                   </div>
@@ -190,7 +226,7 @@
                     class="featured-discovery-card__action"
                     aria-hidden="true"
                   >
-                    <span>Explore discovery</span>
+                    <span> Explore discovery </span>
 
                     <span class="featured-discovery-card__arrow"> → </span>
                   </div>
@@ -228,7 +264,7 @@
                     class="featured-discovery-card__action"
                     aria-hidden="true"
                   >
-                    <span>Explore discovery</span>
+                    <span> Explore discovery </span>
 
                     <span class="featured-discovery-card__arrow"> → </span>
                   </div>
