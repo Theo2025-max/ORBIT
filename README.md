@@ -4,6 +4,10 @@ ORBIT is a responsive NASA image-discovery website developed for the University 
 
 The website allows users to discover, search, view and save NASA imagery through a simple image-focused experience. It was developed from the approved ORBIT design document and UX/UI design process.
 
+## Live Website
+
+[View the live ORBIT website](https://theo2025-max.github.io/ORBIT/)
+
 ## Main Pages
 
 ORBIT has three main pages:
