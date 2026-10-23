@@ -20,7 +20,7 @@
   </head>
 
   <body>
-    <a class="skip-link" href="#main-content"> Skip to main content </a>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <header class="site-header">
       <div class="container">
@@ -37,11 +37,11 @@
             </li>
 
             <li>
-              <a class="site-nav__link" href="explore.html"> Explore </a>
+              <a class="site-nav__link" href="explore.html">Explore</a>
             </li>
 
             <li>
-              <a class="site-nav__link" href="saved.html"> Saved </a>
+              <a class="site-nav__link" href="saved.html">Saved</a>
             </li>
           </ul>
         </nav>
@@ -49,20 +49,7 @@
     </header>
 
     <main id="main-content" class="page-main" tabindex="-1">
-      <!-- ==================================================
-           DISCOVER HERO
-      =================================================== -->
-
       <section class="discover-hero">
-        <!--
-          Decorative multi-layer starfield.
-
-          Most stars are static.
-          Only sparse secondary layers move.
-          Hidden from assistive technology because it
-          conveys no content.
-        -->
-
         <div class="discover-starfield" aria-hidden="true">
           <span
             class="discover-starfield__layer discover-starfield__layer--static"
@@ -104,24 +91,6 @@
             </a>
           </div>
 
-          <!-- ==================================================
-               PASSIVE ORBIT OBJECT
-
-               Decorative ambient object.
-
-               Fine-pointer users receive:
-               - subtle internal-light response
-               - tiny ring parallax
-
-               Ambient motion:
-               - internal surface slowly drifts
-               - ring gently precesses
-
-               No click behaviour.
-               No keyboard focus.
-               No essential information.
-          =================================================== -->
-
           <div class="discover-hero__visual">
             <div
               id="discover-orbit-field"
@@ -140,10 +109,6 @@
         </div>
       </section>
 
-      <!-- ==================================================
-           FEATURED DISCOVERIES
-      =================================================== -->
-
       <section class="featured-section" aria-labelledby="featured-title">
         <div class="container">
           <div class="section-heading">
@@ -158,8 +123,6 @@
           </div>
 
           <div class="featured-grid">
-            <!-- Pillars of Creation -->
-
             <article class="media-card featured-discovery-card">
               <a
                 class="featured-discovery-card__link"
@@ -188,15 +151,13 @@
                     class="featured-discovery-card__action"
                     aria-hidden="true"
                   >
-                    <span> Explore discovery </span>
+                    <span>Explore discovery</span>
 
-                    <span class="featured-discovery-card__arrow"> → </span>
+                    <span class="featured-discovery-card__arrow">→</span>
                   </div>
                 </div>
               </a>
             </article>
-
-            <!-- Spiral Galaxy M101 -->
 
             <article class="media-card featured-discovery-card">
               <a
@@ -226,15 +187,13 @@
                     class="featured-discovery-card__action"
                     aria-hidden="true"
                   >
-                    <span> Explore discovery </span>
+                    <span>Explore discovery</span>
 
-                    <span class="featured-discovery-card__arrow"> → </span>
+                    <span class="featured-discovery-card__arrow">→</span>
                   </div>
                 </div>
               </a>
             </article>
-
-            <!-- Earth from Space -->
 
             <article class="media-card featured-discovery-card">
               <a
@@ -264,9 +223,9 @@
                     class="featured-discovery-card__action"
                     aria-hidden="true"
                   >
-                    <span> Explore discovery </span>
+                    <span>Explore discovery</span>
 
-                    <span class="featured-discovery-card__arrow"> → </span>
+                    <span class="featured-discovery-card__arrow">→</span>
                   </div>
                 </div>
               </a>
@@ -276,6 +235,10 @@
       </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+
     <script type="module" src="js/discover.js"></script>
+    <script type="module" src="js/motion.js"></script>
   </body>
 </html>

@@ -1,22 +1,46 @@
-/* --------------------------------------------------
-   ORBIT Motion System
+const gsap = window.gsap;
+const ScrollTrigger = window.ScrollTrigger;
 
-   Reserved for Milestone 10.7.
+if (gsap) {
+  initialiseMotionSystem();
+}
 
-   The final implementation will contain ORBIT's
-   assessment-required progressive-enhancement motion
-   sequences.
+function initialiseMotionSystem() {
+  if (ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+  }
 
-   Requirements for this module:
+  const motionContext = gsap.matchMedia();
 
-   - GSAP / ScrollTrigger only where justified
-   - three substantial but restrained sequences
-   - no essential content depends on animation
-   - full prefers-reduced-motion support
-   - graceful behaviour if GSAP is unavailable
-   - no scroll-jacking
-   - no continuous distracting motion
+  motionContext.add("(prefers-reduced-motion: no-preference)", () => {
+    initialiseDiscoverHeroMotion();
+  });
+}
 
-   Do not import this module until the motion system
-   is implemented and tested.
--------------------------------------------------- */
+function initialiseDiscoverHeroMotion() {
+  const heroContent = document.querySelector(".discover-hero__content");
+
+  if (!heroContent) {
+    return;
+  }
+
+  const elements = [
+    heroContent.querySelector(".eyebrow"),
+    heroContent.querySelector(".discover-hero__title"),
+    heroContent.querySelector(".discover-hero__description"),
+    heroContent.querySelector(".button"),
+  ].filter(Boolean);
+
+  if (!elements.length) {
+    return;
+  }
+
+  gsap.from(elements, {
+    opacity: 0,
+    y: 20,
+    duration: 0.65,
+    stagger: 0.11,
+    ease: "power2.out",
+    clearProps: "opacity,transform",
+  });
+}
