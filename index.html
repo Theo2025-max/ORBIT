@@ -11,6 +11,13 @@
       content="ORBIT is a responsive NASA image-discovery experience for exploring and saving space imagery."
     />
 
+    <link
+      rel="preload"
+      as="image"
+      href="assets/images/spiral-galaxy-m101.jpg"
+      fetchpriority="high"
+    />
+
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/tokens.css" />
     <link rel="stylesheet" href="css/base.css" />
@@ -111,6 +118,8 @@
                         alt=""
                         width="1280"
                         height="1280"
+                        loading="eager"
+                        fetchpriority="high"
                         decoding="async"
                       />
                     </span>
@@ -182,7 +191,6 @@
                     aria-hidden="true"
                   >
                     <span>Explore discovery</span>
-
                     <span class="featured-discovery-card__arrow">→</span>
                   </div>
                 </div>
@@ -218,7 +226,6 @@
                     aria-hidden="true"
                   >
                     <span>Explore discovery</span>
-
                     <span class="featured-discovery-card__arrow">→</span>
                   </div>
                 </div>
@@ -254,7 +261,6 @@
                     aria-hidden="true"
                   >
                     <span>Explore discovery</span>
-
                     <span class="featured-discovery-card__arrow">→</span>
                   </div>
                 </div>
