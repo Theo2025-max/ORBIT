@@ -1,0 +1,48 @@
+.site-nav__link--saved {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.site-nav__saved-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 1.35rem;
+  height: 1.35rem;
+
+  padding: 0 0.35rem;
+
+  border-radius: 999px;
+
+  background: #2ee6d6;
+  color: #08111f;
+
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1;
+
+  font-variant-numeric: tabular-nums;
+
+  pointer-events: none;
+}
+
+.site-nav__saved-count[hidden] {
+  display: none;
+}
+
+@media (max-width: 37.5rem) {
+  .site-nav__link--saved {
+    gap: 0.25rem;
+  }
+
+  .site-nav__saved-count {
+    min-width: 1.25rem;
+    height: 1.25rem;
+
+    padding: 0 0.3rem;
+
+    font-size: 0.625rem;
+  }
+}

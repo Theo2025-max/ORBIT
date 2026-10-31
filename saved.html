@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>ORBIT | Saved</title>
@@ -12,11 +13,19 @@
     />
 
     <link rel="stylesheet" href="css/reset.css" />
+
     <link rel="stylesheet" href="css/tokens.css" />
+
     <link rel="stylesheet" href="css/base.css" />
+
     <link rel="stylesheet" href="css/components.css" />
+
+    <link rel="stylesheet" href="css/saved-count.css" />
+
     <link rel="stylesheet" href="css/pages.css" />
+
     <link rel="stylesheet" href="css/responsive.css" />
+
     <link rel="stylesheet" href="css/saved.css" />
   </head>
 
@@ -92,6 +101,7 @@
         >
           <div class="saved-empty-state__visual" aria-hidden="true">
             <span class="saved-empty-state__orbit"></span>
+
             <span class="saved-empty-state__bookmark"></span>
           </div>
 
@@ -106,7 +116,8 @@
 
             <a class="button button--primary" href="explore.html">
               Explore images
-              <span aria-hidden="true">→</span>
+
+              <span aria-hidden="true"> → </span>
             </a>
           </div>
         </section>
@@ -172,16 +183,19 @@
               <dl class="details-panel__metadata">
                 <div class="details-panel__metadata-item">
                   <dt>Source</dt>
+
                   <dd id="saved-details-source">NASA</dd>
                 </div>
 
                 <div class="details-panel__metadata-item">
                   <dt>Date</dt>
+
                   <dd id="saved-details-date">Not available</dd>
                 </div>
 
                 <div class="details-panel__metadata-item">
                   <dt>NASA ID</dt>
+
                   <dd id="saved-details-nasa-id">Not available</dd>
                 </div>
               </dl>
@@ -243,6 +257,8 @@
         </section>
       </div>
     </main>
+
+    <script type="module" src="js/saved-count.js"></script>
 
     <script type="module" src="js/saved.js"></script>
   </body>

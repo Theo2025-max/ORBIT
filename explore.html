@@ -20,6 +20,8 @@
 
     <link rel="stylesheet" href="css/components.css" />
 
+    <link rel="stylesheet" href="css/saved-count.css" />
+
     <link rel="stylesheet" href="css/pages.css" />
 
     <link rel="stylesheet" href="css/responsive.css" />
@@ -59,10 +61,6 @@
     </header>
 
     <main id="main-content" class="page-main" tabindex="-1">
-      <!-- ==================================================
-           EXPLORE HERO
-      =================================================== -->
-
       <section class="explore-hero">
         <div class="container">
           <div class="explore-hero__content">
@@ -139,23 +137,12 @@
         </div>
       </section>
 
-      <!-- ==================================================
-           SEARCH RESULTS
-      =================================================== -->
-
       <section
         id="explore-results-section"
         class="explore-results-section"
         aria-label="NASA image results"
       >
         <div class="container">
-          <!-- ==================================================
-               ACCESSIBLE SEARCH STATE
-
-               The loading enhancement observes this existing
-               state rather than owning search behaviour.
-          =================================================== -->
-
           <div
             id="search-status"
             class="search-status"
@@ -229,10 +216,6 @@
             </div>
           </div>
 
-          <!-- ==================================================
-               RESULTS HEADING
-          =================================================== -->
-
           <div id="results-header" class="results-header" hidden>
             <div>
               <p class="results-header__eyebrow">NASA Image Library</p>
@@ -247,14 +230,6 @@
             ></p>
           </div>
 
-          <!-- ==================================================
-               REAL RESULTS / TEMPORARY SKELETONS
-
-               Skeletons are inserted here only during loading.
-               They are aria-hidden and are replaced by the real
-               NASA cards created by explore.js.
-          =================================================== -->
-
           <div
             id="search-results"
             class="results-grid"
@@ -262,10 +237,6 @@
           ></div>
         </div>
       </section>
-
-      <!-- ==================================================
-           IMAGE DETAILS
-      =================================================== -->
 
       <section
         id="details-panel"
@@ -281,15 +252,13 @@
               class="details-panel__back"
               type="button"
             >
-              <span aria-hidden="true"> ← </span>
+              <span aria-hidden="true">←</span>
 
               Back to results
             </button>
           </div>
 
           <div class="details-panel__layout">
-            <!-- Image -->
-
             <div class="details-panel__media">
               <img
                 id="details-image"
@@ -311,16 +280,12 @@
               </div>
             </div>
 
-            <!-- Information -->
-
             <div class="details-panel__content">
               <p class="details-panel__eyebrow">NASA Image Library</p>
 
               <h2 id="details-title" class="details-panel__title">
                 Image details
               </h2>
-
-              <!-- Metadata -->
 
               <dl class="details-panel__metadata">
                 <div class="details-panel__metadata-item">
@@ -342,8 +307,6 @@
                 </div>
               </dl>
 
-              <!-- Description -->
-
               <div class="details-panel__description">
                 <h3 class="details-panel__section-title">About this image</h3>
 
@@ -351,8 +314,6 @@
                   NASA image information will appear here.
                 </p>
               </div>
-
-              <!-- Provenance -->
 
               <div class="details-panel__provenance">
                 <h3 class="details-panel__section-title">
@@ -383,25 +344,15 @@
       </section>
     </main>
 
-    <!--
-      Core Explore behaviour remains authoritative.
-    -->
-
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 
+    <script type="module" src="js/saved-count.js"></script>
+
     <script type="module" src="js/explore.js"></script>
 
-    <!--
-      Progressive loading feedback only.
-    -->
-
     <script type="module" src="js/explore-loading.js"></script>
-
-    <!--
-      Accessible Save / Remove confirmation feedback.
-    -->
 
     <script type="module" src="js/save-feedback.js"></script>
 
