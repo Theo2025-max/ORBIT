@@ -1,0 +1,109 @@
+.discover-feature {
+  display: grid;
+  width: 100%;
+  justify-items: center;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 1.5rem;
+}
+
+.discover-feature__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: inherit;
+  filter: brightness(0.82) contrast(1.08) saturate(0.92);
+  transition:
+    filter 240ms ease,
+    scale 320ms ease;
+}
+
+.discover-feature__meta {
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  margin-top: 1.25rem;
+  text-align: center;
+}
+
+.discover-feature__eyebrow {
+  color: #aeb7cc;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.discover-feature__title {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.discover-feature__source {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #c7cede;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  transition:
+    color 200ms ease,
+    transform 200ms ease;
+}
+
+.discover-feature:hover .discover-feature__image {
+  filter: brightness(0.92) contrast(1.08) saturate(1);
+  scale: 1.025;
+}
+
+.discover-feature:hover .discover-feature__source {
+  color: #ffffff;
+  transform: translateX(0.2rem);
+}
+
+.discover-feature:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 0.5rem;
+}
+
+.discover-feature:focus-visible .discover-feature__image {
+  filter: brightness(0.92) contrast(1.08) saturate(1);
+}
+
+@media (max-width: 768px) {
+  .discover-feature__meta {
+    margin-top: 1rem;
+  }
+
+  .discover-feature__eyebrow {
+    font-size: 0.6875rem;
+  }
+
+  .discover-feature__title {
+    font-size: 0.9375rem;
+  }
+
+  .discover-feature__source {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .discover-feature__image,
+  .discover-feature__source {
+    transition: none;
+  }
+
+  .discover-feature:hover .discover-feature__image {
+    scale: 1;
+  }
+
+  .discover-feature:hover .discover-feature__source {
+    transform: none;
+  }
+}

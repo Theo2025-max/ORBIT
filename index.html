@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="css/components.css" />
     <link rel="stylesheet" href="css/pages.css" />
     <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/discover-feature.css" />
   </head>
 
   <body>
@@ -82,7 +83,7 @@
             </h1>
 
             <p class="discover-hero__description">
-              Explore real space imagery and discover the stories behind it.
+              Explore real NASA imagery and discover the stories behind it.
             </p>
 
             <a class="button button--primary" href="explore.html">
@@ -92,19 +93,48 @@
           </div>
 
           <div class="discover-hero__visual">
-            <div
-              id="discover-orbit-field"
-              class="discover-orbit-field"
-              aria-hidden="true"
+            <a
+              class="discover-feature"
+              href="explore.html?q=Spiral%20Galaxy%20M101"
             >
-              <span class="discover-orbit-shell">
-                <span class="discover-orbit-visual">
-                  <span class="discover-orbit-visual__surface"></span>
+              <div
+                id="discover-orbit-field"
+                class="discover-orbit-field"
+                aria-hidden="true"
+              >
+                <span class="discover-orbit-shell">
+                  <span class="discover-orbit-visual">
+                    <span class="discover-orbit-visual__surface">
+                      <img
+                        class="discover-feature__image"
+                        src="assets/images/spiral-galaxy-m101.jpg"
+                        alt=""
+                        width="1280"
+                        height="1280"
+                        decoding="async"
+                      />
+                    </span>
+                  </span>
+
+                  <span class="discover-orbit-visual__ring"></span>
+                </span>
+              </div>
+
+              <span class="discover-feature__meta">
+                <span class="discover-feature__eyebrow">
+                  Featured NASA discovery
                 </span>
 
-                <span class="discover-orbit-visual__ring"></span>
+                <span class="discover-feature__title">
+                  Spiral Galaxy M101
+                </span>
+
+                <span class="discover-feature__source">
+                  NASA / Hubble
+                  <span aria-hidden="true">→</span>
+                </span>
               </span>
-            </div>
+            </a>
           </div>
         </div>
       </section>
