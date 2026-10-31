@@ -2,7 +2,7 @@
 
 ORBIT is a responsive NASA image-discovery website developed for the University of the Witwatersrand Interactive Media 3B final exam.
 
-The website allows users to discover, search, view and save NASA imagery through a simple image-focused experience. It was developed from the approved ORBIT design document and UX/UI design process.
+The website allows users to discover, search, view and save NASA imagery through a focused image-based experience.
 
 ## Live Website
 
@@ -12,7 +12,7 @@ The website allows users to discover, search, view and save NASA imagery through
 
 ORBIT has three main pages:
 
-- **Discover** — introduces the website and highlights featured space imagery.
+- **Discover** — introduces the website, presents a featured NASA discovery and highlights selected space imagery.
 - **Explore** — allows users to search NASA imagery, view search results and open more information about an image.
 - **Saved** — displays images that the user has saved in their current browser.
 
@@ -25,6 +25,7 @@ ORBIT has three main pages:
 - Retry behaviour when a search fails
 - NASA image details and metadata
 - Source and provenance information
+- Featured NASA discovery on the Discover page
 - Saved images using `localStorage`
 - Responsive layouts for desktop, tablet and mobile
 - Keyboard-accessible navigation and controls
@@ -36,16 +37,16 @@ ORBIT has three main pages:
 
 ## GSAP Motion
 
-GSAP is used to add motion without making animation necessary for using the website.
+GSAP is used to support motion and transitions while keeping the website fully usable without animation.
 
 The main GSAP interactions are:
 
 - A GSAP Timeline for the Discover hero content
 - ScrollTrigger animations for featured content and NASA search results
 - A GSAP Timeline when opening image details on the Explore page
-- A subtle reveal animation for the ORBIT visual on the Discover page
+- A subtle reveal animation for the ORBIT hero visual
 
-Reduced-motion preferences are respected so that the website remains fully usable without these animations.
+Reduced-motion preferences are respected so that the complete website remains available without these animations.
 
 ## Technologies Used
 
@@ -80,6 +81,7 @@ The `css` folder contains the styling files:
 - `responsive.css`
 - `explore.css`
 - `saved.css`
+- `discover-feature.css`
 
 The `js` folder contains the JavaScript files:
 
